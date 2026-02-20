@@ -104,6 +104,78 @@
             margin-top: 12px;
             min-height: 20px;
         }
+        /* === 管理員改密碼面板 === */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 100000;
+            align-items: center;
+            justify-content: center;
+        }
+        .admin-panel.show { display: flex; }
+        .admin-box {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px 36px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .admin-box h3 {
+            color: #1e3c72;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .admin-box p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .admin-box input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .admin-box input:focus { border-color: #1e3c72; }
+        .admin-box .admin-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .admin-box .admin-btn:hover { opacity: 0.9; }
+        .admin-box .admin-btn-cancel {
+            width: 100%;
+            padding: 12px;
+            background: #eee;
+            color: #666;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .admin-msg {
+            font-size: 14px;
+            margin-top: 10px;
+            min-height: 20px;
+        }
+        .admin-msg.success { color: #16a34a; }
+        .admin-msg.error { color: #dc3545; }
 
         /* === 主頁內容 === */
         .header {
@@ -497,9 +569,24 @@
         </div>
     </div>
 
+    <!-- 管理員改密碼面板 -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-box">
+            <h3>🔐 管理員密碼設定</h3>
+            <p>您以至高權限登入，可修改課程登入密碼</p>
+            <input type="text" id="currentPwDisplay" readonly style="background:#f5f5f5; color:#999; font-size:14px;">
+            <input type="password" id="newPassword" placeholder="輸入新密碼">
+            <input type="password" id="confirmPassword" placeholder="再次確認新密碼">
+            <button class="admin-btn" onclick="changePassword()">✅ 變更密碼</button>
+            <button class="admin-btn-cancel" onclick="closeAdmin()">暫不修改，直接進入課程</button>
+            <div class="admin-msg" id="adminMsg"></div>
+        </div>
+    </div>
+
     <script>
         // ===== 密碼驗證 =====
-        const CORRECT_PASSWORD = 'NoteBookLM2026';
+        const ADMIN_PASSWORD = 'Aa@0981737608';
+        let CORRECT_PASSWORD = localStorage.getItem('coursePw') || 'NoteBookLM2026';
 
         // 檢查是否已登入（session 內有效）
         if (sessionStorage.getItem('authenticated') === 'true') {
@@ -515,7 +602,14 @@
             const input = document.getElementById('passwordInput');
             const errorEl = document.getElementById('loginError');
 
-            if (input.value === CORRECT_PASSWORD) {
+            if (input.value === ADMIN_PASSWORD) {
+                // 至高權限密碼 → 顯示改密碼面板
+                errorEl.textContent = '';
+                input.value = '';
+                document.getElementById('currentPwDisplay').value = '目前密碼：' + CORRECT_PASSWORD;
+                document.getElementById('adminPanel').classList.add('show');
+            } else if (input.value === CORRECT_PASSWORD) {
+                // 一般密碼 → 直接進入
                 sessionStorage.setItem('authenticated', 'true');
                 document.getElementById('loginOverlay').classList.add('hidden');
                 errorEl.textContent = '';
@@ -526,6 +620,46 @@
                 input.focus();
                 setTimeout(() => input.classList.remove('error'), 500);
             }
+        }
+
+        function changePassword() {
+            const newPw = document.getElementById('newPassword').value;
+            const confirmPw = document.getElementById('confirmPassword').value;
+            const msg = document.getElementById('adminMsg');
+
+            if (!newPw) {
+                msg.className = 'admin-msg error';
+                msg.textContent = '❌ 請輸入新密碼';
+                return;
+            }
+            if (newPw.length < 4) {
+                msg.className = 'admin-msg error';
+                msg.textContent = '❌ 密碼至少 4 個字元';
+                return;
+            }
+            if (newPw !== confirmPw) {
+                msg.className = 'admin-msg error';
+                msg.textContent = '❌ 兩次密碼不一致';
+                return;
+            }
+
+            CORRECT_PASSWORD = newPw;
+            localStorage.setItem('coursePw', newPw);
+            msg.className = 'admin-msg success';
+            msg.textContent = '✅ 密碼已更新為：' + newPw;
+
+            setTimeout(() => {
+                closeAdmin();
+            }, 1500);
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminPanel').classList.remove('show');
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            document.getElementById('adminMsg').textContent = '';
+            sessionStorage.setItem('authenticated', 'true');
+            document.getElementById('loginOverlay').classList.add('hidden');
         }
     </script>
 </body>
