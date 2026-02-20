@@ -847,20 +847,25 @@
             <h1>📝 NoteBookLM簡報編輯術 — 課程認證測驗</h1>
             <div class="subtitle">通過測驗（80 分以上）即可獲得認證證書！</div>
             <div class="info">本次測驗從題庫中隨機抽取 10 題，每題 10 分，滿分 100 分。達 80 分即取得課程認證通過證書。</div>
+            <div id="startArea" style="margin-top: 28px;">
+                <button class="btn-submit" onclick="startQuiz()" style="font-size: 1.2rem; padding: 16px 48px; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);">🚀 開始測驗</button>
+            </div>
         </div>
 
-        <!-- 作答進度 -->
-        <div class="progress-text" id="progressText">已作答：0 / 10</div>
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" id="progressBar"></div>
-        </div>
+        <!-- 作答進度（初始隱藏） -->
+        <div id="quizBody" style="display: none;">
+            <div class="progress-text" id="progressText">已作答：0 / 10</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
 
-        <!-- Section 2: 題目區 -->
-        <div class="questions-container" id="questionsContainer"></div>
+            <!-- Section 2: 題目區 -->
+            <div class="questions-container" id="questionsContainer"></div>
 
-        <!-- 提交按鈕 -->
-        <div class="submit-area" id="submitArea">
-            <button class="btn-submit" id="btnSubmit" onclick="submitQuiz()">📤 提交答案</button>
+            <!-- 提交按鈕 -->
+            <div class="submit-area" id="submitArea">
+                <button class="btn-submit" id="btnSubmit" onclick="submitQuiz()">📤 提交答案</button>
+            </div>
         </div>
 
         <!-- Section 3: 結果區 -->
@@ -1053,6 +1058,13 @@
 
         // ===== 初始化 =====
         function init() {
+            // 不自動載入題目，等使用者按「開始測驗」
+        }
+
+        // ===== 開始測驗 =====
+        function startQuiz() {
+            document.getElementById('startArea').style.display = 'none';
+            document.getElementById('quizBody').style.display = 'block';
             loadQuiz();
         }
 
@@ -1102,6 +1114,8 @@
             });
 
             // 重設 UI
+            document.getElementById('quizBody').style.display = 'block';
+            document.getElementById('startArea').style.display = 'none';
             document.getElementById('submitArea').style.display = 'block';
             document.getElementById('resultSection').style.display = 'none';
             document.getElementById('resultSection').className = 'result-section';
