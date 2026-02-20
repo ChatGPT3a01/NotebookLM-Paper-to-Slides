@@ -451,11 +451,14 @@
             <div class="card cover-card">
                 <div class="cover-icon">&#x1F4D6;</div>
                 <h1>前置階段：Gemini Gem 論文閱讀器</h1>
-                <p class="subtitle">Paper Reader &mdash; 你的 AI 讀書夥伴</p>
+                <p class="subtitle">Paper Reader &mdash; 你的 AI 讀書夥伴，帶你逐頁讀懂英文論文</p>
+                <p style="color:#666; font-size:16px; margin-bottom:24px;">在進入 NotebookLM 知識蒸餾之前，先用 Gemini Gem 打造專屬的論文閱讀器，<br>像學長姐一樣帶你一頁一頁看懂 Chapter W 的每一個段落與專有名詞。</p>
                 <div class="tags">
                     <span class="tag">Gemini Gem</span>
                     <span class="tag">逐頁精讀</span>
                     <span class="tag">紅藍筆標註</span>
+                    <span class="tag">專有名詞翻譯</span>
+                    <span class="tag">14 頁完整攻略</span>
                 </div>
             </div>
         </div>
@@ -463,21 +466,26 @@
         <!-- Slide 2: 為什麼需要這一步？ -->
         <div class="slide" data-slide="1">
             <div class="card">
-                <h2>為什麼需要這一步？</h2>
+                <h2>為什麼需要 Gem 論文閱讀器？</h2>
+                <p>NotebookLM 是強大的知識蒸餾工具，但它有一個明顯的短板 &mdash; 它擅長「整體分析」，卻不擅長「逐頁陪你讀」。面對一篇 14 頁的英文學術文章，你真正需要的是有人帶你一頁一頁慢慢讀。</p>
                 <ul>
-                    <li>NotebookLM 擅長「整體分析」，不擅長「逐頁陪你讀」</li>
-                    <li>14 頁英文學術文章，需要有人帶著一頁一頁慢慢讀</li>
-                    <li>論文閱讀器像坐在旁邊的學長姐，幫你畫重點</li>
+                    <li><strong>NotebookLM 的限制</strong>：NotebookLM 會把整份文件當成一個整體來分析，它能快速告訴你「這篇論文的主旨是什麼」，但無法帶你逐頁、逐段落地閱讀和理解每一個細節</li>
+                    <li><strong>英文學術論文的挑戰</strong>：14 頁的 Chapter W 充滿了學術專有名詞（如 Worked Examples、Cognitive Load Theory、Schema Acquisition），直接丟給 NotebookLM 分析，你可能看得懂結論，卻看不懂過程</li>
+                    <li><strong>需要「陪讀型」的 AI 助手</strong>：你需要一個像坐在旁邊的學長姐一樣的工具，逐頁帶你讀、幫你翻譯、替你畫重點、為你解釋上下文脈絡</li>
+                    <li><strong>先讀懂，才能蒸餾</strong>：如果你自己都沒讀懂原文，就算 NotebookLM 幫你產出了簡報，你也無法判斷內容是否正確、是否遺漏了重要概念</li>
+                    <li><strong>建立知識基礎</strong>：逐頁精讀後，你對每個專有名詞、每段論述邏輯都有基本理解，接下來使用 NotebookLM 時才能提出精準的問題、做出正確的判斷</li>
                 </ul>
-                <div style="margin-top: 12px;">
+                <h3 style="margin-top: 20px;">論文閱讀器的「三色筆」標註系統</h3>
+                <div style="margin-top: 8px;">
                     <ul class="no-bullet">
-                        <li style="font-size: 17px; padding: 6px 0;">&#x1F534; <strong>紅筆</strong>：標出專有名詞，附中文翻譯和定義</li>
-                        <li style="font-size: 17px; padding: 6px 0;">&#x1F535; <strong>藍筆</strong>：寫出每段落核心意思</li>
-                        <li style="font-size: 17px; padding: 6px 0;">&#x1F4A1; <strong>每頁摘要</strong>：歸納重點</li>
+                        <li style="font-size: 17px; padding: 8px 0;">&#x1F534; <strong>紅筆 &mdash; 專有名詞標註</strong>：遇到學術專有名詞，自動標出英文原文、中文翻譯、以及白話定義解釋。例如：Worked Examples（工作範例）&mdash; 指提供完整解題步驟的教學示範</li>
+                        <li style="font-size: 17px; padding: 8px 0;">&#x1F535; <strong>藍筆 &mdash; 段落核心意思</strong>：針對每一個段落，用淺顯易懂的中文寫出「這段到底在講什麼」，幫助你理解論文的論述邏輯與推進方式</li>
+                        <li style="font-size: 17px; padding: 8px 0;">&#x1F4A1; <strong>每頁摘要 &mdash; 重點歸納</strong>：每一頁讀完後，給你一段精簡的筆記摘要，幫你快速回顧這一頁的核心內容，也方便日後複習</li>
+                        <li style="font-size: 17px; padding: 8px 0;">&#x1F517; <strong>前後頁關聯 &mdash; 脈絡串接</strong>：告訴你這一頁和前一頁、後一頁的關係，讓你不會迷失在論文的長篇論述中</li>
                     </ul>
                 </div>
                 <div class="info-box">
-                    &#x1F4CC; 簡單來說，Gem 論文閱讀器幫你「逐頁看懂原文」，而 NotebookLM 則負責「把知識重新組織」。兩個工具搭配使用，才能既讀懂又能產出。
+                    &#x1F4CC; <strong>核心概念</strong>：Gem 論文閱讀器幫你「逐頁看懂原文」，NotebookLM 負責「把知識重新組織成簡報」。兩個工具各有分工 &mdash; Gem 是「讀懂」的工具，NotebookLM 是「產出」的工具。先讀懂再產出，才是正確的學術工作流程。
                 </div>
             </div>
         </div>
@@ -485,16 +493,18 @@
         <!-- Slide 3: 什麼是 Gem？ -->
         <div class="slide" data-slide="2">
             <div class="card">
-                <h2>什麼是 Gem？</h2>
+                <h2>什麼是 Gem？&mdash; Google Gemini 的自訂 AI 助手</h2>
+                <p>Gem 是 Google Gemini 推出的「自訂 AI 助手」功能，讓你可以打造專屬的 AI 工具。你只要幫 Gemini 寫一份「工作說明書」，它就會按照你的指示，用固定的角色、語氣、格式來回答問題。</p>
                 <ul>
-                    <li>Gem 是 Google Gemini 的「自訂 AI 助手」功能</li>
-                    <li>你幫 Gemini 寫一份「工作說明書」</li>
-                    <li>設定角色、回答方式、輸出格式</li>
-                    <li>類似功能：ChatGPT &#x2192; GPTs，Gemini &#x2192; Gem</li>
-                    <li>只需設定一次，可重複使用</li>
+                    <li><strong>Gem 的本質</strong>：你寫一份「工作說明書（Prompt）」給 Gemini，告訴它「你是誰、你要怎麼工作、你的輸出長什麼樣子」，Gemini 就會嚴格按照這份說明書來回應你的每一次提問</li>
+                    <li><strong>可設定的內容</strong>：包含角色設定（例如「你是一位專業的論文閱讀筆記助手」）、回答方式（例如「逐頁閱讀模式」）、輸出格式（例如「紅藍筆標註＋每頁摘要」）、語言偏好（例如「繁體中文」）</li>
+                    <li><strong>設定一次，永久使用</strong>：Gem 建好之後會儲存在你的 Gemini 帳號中，下次要讀另一篇論文時，只要開啟同一個 Gem、上傳新的 PDF，就能直接開始使用，不需要重新設定</li>
+                    <li><strong>跨平台類比</strong>：ChatGPT 的對應功能叫 GPTs（自訂 GPT），Gemini 的對應功能叫 Gem。兩者概念相同，都是「讓使用者自訂 AI 的行為模式」</li>
+                    <li><strong>免費即可使用</strong>：Gem 功能包含在 Google Gemini 的免費版本中，不需要付費升級也能建立和使用自訂的 Gem</li>
+                    <li><strong>為什麼不直接用 Gemini 聊天？</strong>：因為每次對話都重新下指令太麻煩，而且 AI 的回答品質會不穩定。透過 Gem 預先設定好規則，AI 每次都會用相同的格式和品質回答</li>
                 </ul>
                 <div class="info-box">
-                    &#x1F4CC; Gem 就像你為 AI 寫的「標準作業流程（SOP）」，讓它每次都照你要的方式回答。
+                    &#x1F4CC; <strong>白話比喻</strong>：Gem 就像你為 AI 寫的「標準作業流程（SOP）」。想像你雇了一位助理，你不會每天早上重新教他怎麼做事，而是給他一本工作手冊，讓他照著做。Gem 就是這本工作手冊 &mdash; 寫一次，AI 就永遠照著做。
                 </div>
             </div>
         </div>
@@ -502,14 +512,17 @@
         <!-- Slide 4: 建立步驟 1-3 -->
         <div class="slide" data-slide="3">
             <div class="card">
-                <h2>如何建立「論文閱讀器」Gem</h2>
+                <h2>如何建立「論文閱讀器」Gem &mdash; 步驟詳解</h2>
+                <p>以下是建立 Gem 的完整步驟，每一步都附有詳細說明，即使是第一次使用 Gemini 的同學也能順利完成。</p>
                 <ol>
-                    <li>開啟 <strong>gemini.google.com</strong>，登入 Google 帳號</li>
-                    <li>左側欄 &#x2192;「<strong>Gem 管理員</strong>」&#x2192;「<strong>+ 新增 Gem</strong>」</li>
-                    <li>名稱輸入：<strong>論文閱讀器 Paper Reader</strong></li>
+                    <li><strong>開啟 Gemini 網站並登入</strong>：在瀏覽器中前往 <strong>gemini.google.com</strong>，使用你的 Google 帳號登入。如果你已經登入 Gmail 或 Google Drive，通常會自動登入。建議使用 Chrome 或 Edge 瀏覽器以獲得最佳體驗</li>
+                    <li><strong>進入 Gem 管理員</strong>：登入後，看向畫面左側的側邊欄，找到「<strong>Gem 管理員</strong>」選項並點擊進入。在 Gem 管理員頁面的右上角，點擊「<strong>+ 新增 Gem</strong>」按鈕，開始建立你的第一個自訂 Gem</li>
+                    <li><strong>設定 Gem 名稱</strong>：在名稱欄位輸入「<strong>論文閱讀器 Paper Reader</strong>」。取一個中英文混合的名稱，方便日後辨識。你也可以自訂其他名稱，例如「學術論文逐頁助手」等</li>
+                    <li><strong>貼入指令（下一頁詳解）</strong>：在「指令」欄位中貼入預先準備好的提示詞（Prompt），這是整個 Gem 最核心的設定，決定了 AI 的行為模式和輸出格式</li>
+                    <li><strong>儲存 Gem</strong>：確認所有設定無誤後，點擊右上角的「<strong>儲存</strong>」按鈕。儲存完成後，你的 Gem 就會出現在 Gem 管理員的列表中，隨時可以開啟使用</li>
                 </ol>
                 <div class="info-box">
-                    &#x2705; 完成以上三步，就建好了 Gem 的外殼，接下來要填入靈魂 &mdash; 指令。
+                    &#x2705; <strong>建立小提醒</strong>：完成以上五步，就建好了一個完整的論文閱讀器 Gem。整個過程不到 5 分鐘。其中最關鍵的是第四步「貼入指令」，指令的品質直接決定了 Gem 的回答品質。下一頁我們會詳細說明指令的內容與設計邏輯。
                 </div>
             </div>
         </div>
@@ -517,25 +530,40 @@
         <!-- Slide 5: 建立步驟 4-5 貼入指令 -->
         <div class="slide" data-slide="4">
             <div class="card">
-                <h2>貼入 Gem 指令（最關鍵的一步）</h2>
-                <p>在「指令」欄位中貼入以下核心內容：</p>
+                <h2>貼入 Gem 指令 &mdash; 最關鍵的一步</h2>
+                <p>在「指令」欄位中貼入以下核心內容。這份指令就是 Gem 的「靈魂」，它決定了 AI 每次回答的角色、格式和品質。指令的設計邏輯是：透過「角色設定＋固定輸出格式＋明確標註規則」，確保 AI 每次都以相同的高品質方式回答，大幅降低輸出的不穩定性。</p>
                 <div class="code-block">
-<span class="comment">// 論文閱讀器 Gem — 核心指令</span>
-<span class="comment">// 設計邏輯：透過角色設定＋固定輸出格式，</span>
-<span class="comment">// 確保 AI 每次都以相同方式回答，降低輸出品質的不穩定性。</span>
+<span class="comment">// ===== 論文閱讀器 Gem — 核心指令架構 =====</span>
+<span class="comment">// 設計邏輯：角色設定 + 工作模式 + 輸出格式 + 標註規則 + 語言設定</span>
+<span class="comment">// 目的：讓 AI 的輸出穩定可預期，每一頁都用相同格式回答</span>
 
+<strong>【角色設定】</strong>
 你是一位專業的「論文閱讀筆記助手」。
-工作模式：逐頁閱讀模式
 
-每頁輸出：
-<span class="emoji">&#x1F4D6;</span> 原文段落
-<span class="emoji">&#x1F534;</span> 紅筆標註 — 專有名詞（英文＋中文＋定義）
-<span class="emoji">&#x1F535;</span> 藍筆標註 — 段落含義解讀
-<span class="emoji">&#x1F4A1;</span> 筆記摘要
-<span class="emoji">&#x1F517;</span> 與前後頁的關聯
+<strong>【工作模式】</strong>
+逐頁閱讀模式 — 使用者每次指定一頁，你就針對該頁進行完整分析。
+
+<strong>【每頁輸出格式】</strong>
+<span class="emoji">&#x1F4D6;</span> 第 X 頁 → 列出該頁的原文重要段落
+<span class="emoji">&#x1F534;</span> 紅筆標註 → 專有名詞（英文原文＋中文翻譯＋白話定義）
+<span class="emoji">&#x1F535;</span> 藍筆標註 → 每段落的核心意思解讀
+<span class="emoji">&#x1F4A1;</span> 筆記摘要 → 本頁重點歸納（3-5 句）
+<span class="emoji">&#x1F517;</span> 前後頁關聯 → 與上一頁和下一頁的邏輯串接
+
+<strong>【標註規則】</strong>
+紅筆：每個專有名詞都要附「英文＋中文＋一句話定義」
+藍筆：用淺顯易懂的中文解釋，避免直譯式翻譯
+
+<strong>【語言設定】</strong>
+全程使用繁體中文回答，專有名詞保留英文原文
                 </div>
+                <ul>
+                    <li><strong>為什麼要設定角色？</strong>：告訴 AI「你是誰」，它才知道用什麼語氣和深度來回答。設定為「論文閱讀筆記助手」，AI 就會自動採用學術但親切的語調</li>
+                    <li><strong>為什麼要固定格式？</strong>：如果不指定格式，AI 每次的回答結構都不同，有時長有時短、有時有標註有時沒有。固定格式讓每一頁的筆記都整齊一致，方便後續整理</li>
+                    <li><strong>為什麼要標註規則？</strong>：明確告訴 AI「紅筆標什麼、藍筆標什麼」，它才不會自作主張。標註規則越具體，輸出品質越穩定</li>
+                </ul>
                 <div class="info-box">
-                    &#x1F4DD; 完整指令請見教學手冊，此處為核心架構示意。這份指令的設計重點在於：用「角色設定＋固定格式」讓 AI 的輸出穩定可預期，不會每次回答都不一樣。
+                    &#x1F4DD; <strong>重要提醒</strong>：完整的指令文字請見教學手冊附錄，此處為核心架構示意。實際使用時，你可以根據自己的需求微調指令，例如增加「用生活化的例子解釋抽象概念」等額外要求。指令寫得越清楚，Gem 的表現就越好。
                 </div>
             </div>
         </div>
@@ -543,15 +571,25 @@
         <!-- Slide 6: 準備 Chapter W 獨立 PDF -->
         <div class="slide" data-slide="5">
             <div class="card">
-                <h2>抽取目標章節</h2>
-                <p>Chapter W 位置：<strong>第 366&ndash;379 頁，共 14 頁</strong></p>
+                <h2>準備 Chapter W 獨立 PDF &mdash; 抽取目標章節</h2>
+                <p>在開始使用 Gem 之前，需要先將目標章節從整本教科書中抽取出來，製作成獨立的 PDF 檔案。Chapter W（Worked Examples 工作範例）位於教科書的<strong>第 366&ndash;379 頁，共 14 頁</strong>。</p>
+                <h3 style="margin-top:16px;">方法一：瀏覽器內建列印功能（推薦）</h3>
                 <ul>
-                    <li><strong>方法一</strong>：Chrome / Edge &#x2192; <code style="background:#eef;padding:2px 8px;border-radius:4px;">Ctrl + P</code> &#x2192; 另存為 PDF &#x2192; 頁碼 366-379</li>
-                    <li><strong>方法二</strong>：iLovePDF 線上分割工具</li>
-                    <li>命名為：<strong style="color:#1e3c72;">學習理論Ch.W.pdf</strong></li>
+                    <li><strong>步驟</strong>：用 Chrome 或 Edge 開啟原始 PDF &#x2192; 按下鍵盤 <code style="background:#eef;padding:2px 8px;border-radius:4px;">Ctrl + P</code>（Mac 為 Cmd + P）&#x2192; 目的地選擇「另存為 PDF」&#x2192; 在頁碼範圍欄位輸入 <strong>366-379</strong> &#x2192; 點擊「儲存」</li>
+                    <li><strong>優點</strong>：不需安裝任何軟體，所有電腦都能操作。瀏覽器直接處理，速度快且不會壓縮畫質</li>
+                </ul>
+                <h3 style="margin-top:16px;">方法二：iLovePDF 線上工具</h3>
+                <ul>
+                    <li><strong>步驟</strong>：前往 iLovePDF.com &#x2192; 選擇「分割 PDF」功能 &#x2192; 上傳原始 PDF &#x2192; 選擇「依頁碼範圍分割」&#x2192; 輸入 366-379 &#x2192; 下載分割後的檔案</li>
+                    <li><strong>優點</strong>：介面直覺好操作，適合不熟悉瀏覽器列印功能的使用者。免費版即可使用，不需要註冊帳號</li>
+                </ul>
+                <h3 style="margin-top:16px;">檔案命名建議</h3>
+                <ul>
+                    <li>建議命名為：<strong style="color:#1e3c72;">學習理論Ch.W.pdf</strong>，清楚標示章節名稱，方便日後管理和辨識</li>
+                    <li>避免使用中文全形符號或特殊字元命名，以免上傳時發生編碼問題</li>
                 </ul>
                 <div class="info-box">
-                    &#x1F4C1; 抽出獨立 PDF 的原因：Gem 對話上傳限制＋讓 AI 專注在目標章節，提升回答品質。
+                    &#x1F4C1; <strong>為什麼要抽出獨立 PDF？</strong>原因有二：(1) Gemini 對話的檔案上傳有大小限制，整本教科書可能超過上限；(2) 讓 AI 專注在目標的 14 頁章節，不被其他章節的內容干擾，回答品質會顯著提升。後續上傳到 NotebookLM 時，也是使用這份獨立的 PDF。
                 </div>
             </div>
         </div>
@@ -559,18 +597,32 @@
         <!-- Slide 7: 實際使用示範 -->
         <div class="slide" data-slide="6">
             <div class="card">
-                <h2>逐頁閱讀 Chapter W</h2>
+                <h2>實際使用示範 &mdash; 逐頁閱讀 Chapter W</h2>
+                <p>Gem 建好、PDF 準備好之後，就可以開始逐頁閱讀了。操作流程非常簡單：開啟你的 Gem &#x2192; 上傳 PDF 附件 &#x2192; 輸入指令「請給我第 1 頁」。</p>
                 <div class="chat-example">
-                    <div class="chat-user">&#x1F4CE; 上傳 PDF &#x2192; 輸入「請給我第 1 頁」</div>
+                    <div class="chat-user">&#x1F4CE; 上傳「學習理論Ch.W.pdf」&#x2192; 輸入「請給我第 1 頁」</div>
                     <div class="chat-ai">
-                        <div class="line">&#x1F534; <strong>Worked Examples</strong>（工作範例）：專家解法的示範模型</div>
-                        <div class="line">&#x1F535; 第 1 段：開宗明義下定義</div>
-                        <div class="line">&#x1F4A1; 工作範例 ＝ 逐步示範專家解法</div>
+                        <div class="line"><strong>&#x1F4D6; 第 1 頁</strong></div>
+                        <div class="line" style="margin-top:4px;">原文段落：本頁介紹 Worked Examples 的定義與教學意義...</div>
+                        <div class="line" style="margin-top:8px;">&#x1F534; <strong>Worked Examples</strong>（工作範例）：指提供完整解題步驟的教學示範，讓學習者觀察專家的解法過程</div>
+                        <div class="line">&#x1F534; <strong>Cognitive Load Theory</strong>（認知負荷理論）：解釋人類工作記憶容量有限，教學設計應降低不必要的認知負擔</div>
+                        <div class="line" style="margin-top:8px;">&#x1F535; 第 1 段：開宗明義為 Worked Examples 下定義，說明它是教學設計中最常見且最有效的策略之一</div>
+                        <div class="line">&#x1F535; 第 2 段：連結到認知負荷理論，說明為什麼工作範例能降低學習者的認知負擔</div>
+                        <div class="line" style="margin-top:8px;">&#x1F4A1; <strong>本頁重點</strong>：工作範例＝逐步示範專家解法，根植於認知負荷理論，是降低學習負擔的核心教學策略</div>
+                        <div class="line" style="margin-top:8px;">&#x1F517; 本頁為章節開頭，下一頁將進入工作範例的理論基礎</div>
                         <div class="line" style="margin-top: 8px; color: #2a5298; font-weight: 600;">&#x2705; 第 1 頁筆記完成。請說「第 2 頁」繼續閱讀。</div>
                     </div>
                 </div>
+                <h3 style="margin-top:16px;">使用技巧與注意事項</h3>
+                <ul>
+                    <li><strong>逐頁推進</strong>：每次只讀一頁，讀完後輸入「第 2 頁」「第 3 頁」依序推進。不要跳頁，因為 Gem 會追蹤前後頁的關聯</li>
+                    <li><strong>可隨時追問</strong>：如果某個專有名詞看不懂，可以直接追問「請更詳細解釋 Cognitive Load Theory」，Gem 會給你更深入的說明</li>
+                    <li><strong>全程約 30-40 分鐘</strong>：14 頁論文依序讀完，大約需要 30 到 40 分鐘。每一頁都會產出完整的紅藍筆標註與摘要筆記</li>
+                    <li><strong>筆記可匯出</strong>：讀完全部 14 頁後，你可以請 Gem「請幫我整理全部 14 頁的摘要筆記」，它會產出一份完整的閱讀筆記，可以複製貼上保存</li>
+                    <li><strong>品質檢查</strong>：如果覺得某一頁的標註不夠詳細，可以說「請重新分析第 X 頁，特別注意專有名詞」，Gem 會重新產出更詳細的版本</li>
+                </ul>
                 <div class="info-box">
-                    &#x23F1; 14 頁約 <strong>30&ndash;40 分鐘</strong>可讀完，每頁都會產出紅藍筆標註與摘要。
+                    &#x23F1; <strong>時間預估</strong>：14 頁約 <strong>30&ndash;40 分鐘</strong>可全部讀完。讀完後你會擁有一份完整的逐頁筆記，每一頁都有專有名詞翻譯、段落解讀和重點摘要。這份筆記就是你接下來使用 NotebookLM 進行知識蒸餾的重要基礎。
                 </div>
             </div>
         </div>
@@ -578,23 +630,31 @@
         <!-- Slide 8: 在流程中的定位 -->
         <div class="slide" data-slide="7">
             <div class="card">
-                <h2>兩個工具，各司其職</h2>
+                <h2>Gem vs NotebookLM &mdash; 兩個工具，各司其職</h2>
+                <p>很多同學會問：「既然有 NotebookLM，為什麼還要用 Gem？」答案是它們解決的是完全不同的問題。兩個工具互補搭配，才能完成從「讀懂論文」到「產出簡報」的完整流程。</p>
                 <div class="comparison">
                     <div class="compare-box left">
                         <div class="icon">&#x2728;</div>
                         <h3>論文閱讀器 Gem</h3>
-                        <div class="quote">「我讀懂原文了」</div>
-                        <p>逐頁標註、翻譯、解讀</p>
+                        <div class="quote">「讀書夥伴」&mdash; 我讀懂原文了</div>
+                        <p><strong>功能定位</strong>：逐頁標註、翻譯專有名詞、解讀段落意思<br>
+                        <strong>回答的問題</strong>：「這一頁在講什麼？」「這個名詞是什麼意思？」<br>
+                        <strong>產出物</strong>：紅藍筆標註筆記、逐頁摘要、專有名詞對照表</p>
                     </div>
                     <div class="compare-box right">
                         <div class="icon">&#x1F4D3;</div>
                         <h3>NotebookLM 知識蒸餾</h3>
-                        <div class="quote">「我把知識變成簡報了」</div>
-                        <p>萃取、精煉、組織</p>
+                        <div class="quote">「研究助理」&mdash; 我把知識變成簡報了</div>
+                        <p><strong>功能定位</strong>：萃取精煉、蒸餾組織、重新架構知識<br>
+                        <strong>回答的問題</strong>：「知識如何變成簡報？」「怎麼組織成有邏輯的報告？」<br>
+                        <strong>產出物</strong>：學術簡報架構、講稿草稿、重點整理</p>
                     </div>
                     <div class="analogy-bar">
-                        &#x1F373; Gem 把食材洗好切好 &#x2192; NotebookLM 把食材炒成一道菜
+                        &#x1F373; 料理比喻：Gem 是「把食材洗好切好」 &#x2192; NotebookLM 是「把食材炒成一道菜」&mdash; 沒有前者的準備，後者無法上菜
                     </div>
+                </div>
+                <div class="info-box">
+                    &#x1F4CC; <strong>流程串接</strong>：前置階段用 Gem 逐頁讀懂論文 &#x2192; 第一階段用 NotebookLM 上傳 PDF 進行知識萃取 &#x2192; 第二階段產出學術簡報與講稿。Gem 建立的閱讀理解基礎，讓你在使用 NotebookLM 時能精準判斷 AI 產出的品質，避免「AI 說什麼就信什麼」的風險。
                 </div>
             </div>
         </div>
@@ -603,8 +663,10 @@
         <div class="slide" data-slide="8">
             <div class="card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px;">
                 <div style="font-size: 64px; margin-bottom: 24px;">&#x2705;</div>
-                <h2 style="color: #1e3c72; font-size: 32px; border: none; margin-bottom: 16px;">本單元完成！</h2>
-                <p style="font-size: 18px; color: #666; margin-bottom: 40px;">準備好進入下一個階段了嗎？</p>
+                <h2 style="color: #1e3c72; font-size: 32px; border: none; margin-bottom: 16px;">前置階段完成！</h2>
+                <p style="font-size: 18px; color: #666; margin-bottom: 12px;">你已經完成了以下準備工作：</p>
+                <p style="font-size: 16px; color: #888; margin-bottom: 32px;">&#x2705; 了解 Gem 的功能與定位 &nbsp;|&nbsp; &#x2705; 建立論文閱讀器 Gem &nbsp;|&nbsp; &#x2705; 抽取 Chapter W 獨立 PDF &nbsp;|&nbsp; &#x2705; 逐頁閱讀完成</p>
+                <p style="font-size: 17px; color: #555; margin-bottom: 36px;">接下來，我們將把讀懂的知識交給 NotebookLM，進行知識萃取與蒸餾！</p>
                 <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
                     <a href="index.html" style="display: inline-block; padding: 16px 36px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 30px; text-decoration: none; font-size: 17px; font-weight: 600; transition: all 0.3s; box-shadow: 0 6px 20px rgba(102,126,234,0.3);">&#x1F3E0; 回到統整頁</a>
                     <a href="Part2_知識萃取.html" style="display: inline-block; padding: 16px 36px; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 30px; text-decoration: none; font-size: 17px; font-weight: 600; transition: all 0.3s; box-shadow: 0 6px 20px rgba(30,60,114,0.3);">第一階段：上傳 PDF 與知識萃取 &#x2192;</a>

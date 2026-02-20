@@ -482,11 +482,13 @@
             </svg>
         </div>
         <h1>第一階段：上傳 PDF 與知識萃取</h1>
-        <p class="subtitle">0:00–0:30 ｜ 廣度掃描 + 深度鑽探</p>
+        <p class="subtitle">0:00–0:30 ｜ 從廣度掃描到深度鑽探，萃取做簡報的原材料</p>
         <div class="tags">
             <span class="tag">NotebookLM</span>
             <span class="tag">第 1–2 輪提問</span>
-            <span class="tag">核心概念</span>
+            <span class="tag">核心概念萃取</span>
+            <span class="tag">理論基礎追問</span>
+            <span class="tag">文獻整理</span>
         </div>
     </div>
 
@@ -494,131 +496,215 @@
     <div class="slide" data-slide="2">
         <h1>這個階段要做什麼？</h1>
         <div class="info-box">
-            <strong>目標：「知道這個章節有什麼」</strong>
+            <strong>核心目標：「知道這個章節有什麼」</strong>——在前一階段，你已經用論文閱讀器（Gem）逐頁讀過 PDF，對內容有了基本認識，但這只是「見樹」，現在我們要「見林」。
         </div>
         <ul style="margin-top: 18px;">
-            <li>已用 Gem 逐頁讀過，有了基本認識</li>
-            <li>現在需要<strong>「全局觀」</strong>——從高處俯瞰整個章節</li>
-            <li>就像讀完小說，回頭想：<strong>主線是什麼？關鍵人物？轉折點？</strong></li>
+            <li>前一步你已用 <strong>Gem（論文閱讀器）逐頁閱讀</strong>過整個章節，對個別段落有了初步理解，但仍然缺乏對整體架構的掌握</li>
+            <li>這個階段的任務是建立<strong>「全局觀」</strong>——從更高的視角俯瞰整個章節，看清楚各部分之間如何串連</li>
+            <li>打個比方：就像讀完一本小說後，回頭想：<strong>主線劇情是什麼？關鍵人物有哪些？重要的轉折點在哪裡？</strong>——這就是知識萃取在做的事</li>
+            <li>我們要用 <strong>NotebookLM</strong> 作為工具，它能從更高的視角分析整份文件，幫助你快速建立章節的知識地圖</li>
+            <li>具體做法是透過 <strong>兩輪結構化提問</strong>，有系統地從章節中「挖」出做簡報需要的素材</li>
+            <li><strong>第一輪（廣度掃描）：</strong>掌握章節全貌——定義是什麼、機制怎麼運作、涵蓋哪些主題、適合什麼情境</li>
+            <li><strong>第二輪（深度鑽探）：</strong>追問理論根基——認知負荷理論的細節、經典實驗案例、所有引用的研究文獻</li>
         </ul>
         <div class="info-box" style="margin-top: 24px;">
-            我們將透過 <strong>兩輪提問</strong>，分別進行「廣度掃描」與「深度鑽探」，<br>
-            從章節中萃取出做簡報所需的核心原材料。
+            <strong>為什麼要分兩輪？</strong> 先廣後深，就像偵探辦案：先全面蒐證（掃描現場），再針對關鍵線索深入調查（鑽探細節）。這樣萃取出來的材料才夠完整，後續做簡報時不會漏掉重要內容。
         </div>
     </div>
 
-    <!-- Slide 3: 上傳 PDF 到 NotebookLM -->
+    <!-- Slide 3: 時間配置總覽 -->
     <div class="slide" data-slide="3">
-        <h1>上傳 PDF 到 NotebookLM</h1>
-        <ol class="steps-list">
-            <li>開啟 <strong>notebooklm.google.com</strong></li>
-            <li>點選「<strong>新增筆記本</strong>」</li>
-            <li>「<strong>上傳來源</strong>」→ 選擇 <strong>學習理論Ch.W.pdf</strong></li>
-            <li>等待處理（約 <strong>1–2 分鐘</strong>）</li>
-            <li>系統自動生成<strong>來源摘要</strong></li>
+        <h1>時間配置總覽（共 30 分鐘）</h1>
+        <div class="info-box">
+            <strong>本階段總時長：30 分鐘</strong>，分成五個步驟依序進行。掌握時間節奏，才不會在某個環節卡太久。
+        </div>
+        <ol class="steps-list" style="margin-top: 18px;">
+            <li><strong>0:00–0:05（5 分鐘）說明今天目標：</strong>向學生說明課程任務——用一個章節，在課堂上完成一份 15 分鐘的學術簡報。讓大家理解整體流程：萃取 → 蒸餾 → 生成 → 演練</li>
+            <li><strong>0:05–0:10（5 分鐘）上傳 PDF：</strong>把論文章節的 PDF 檔案上傳到 NotebookLM，等待系統處理完成並自動生成來源摘要</li>
+            <li><strong>0:10–0:18（8 分鐘）第一輪提問——廣度掃描：</strong>用兩道提示詞快速掃描章節全貌，建立對定義、機制、結構、情境的整體理解，並整理核心詞彙表</li>
+            <li><strong>0:18–0:26（8 分鐘）第二輪提問——深度鑽探：</strong>用兩道提示詞深入追問理論基礎（認知負荷理論、配線圖實驗），並整理所有引用的研究文獻清單</li>
+            <li><strong>0:26–0:30（4 分鐘）回顧與確認：</strong>回頭檢視我們總共萃取到了哪些「原材料」，確認四大產出都已到位，為下一階段做準備</li>
         </ol>
-        <div class="info-box" style="margin-top: 20px;">
-            上傳完成後，NotebookLM 會自動分析文件內容並產生摘要，這是我們進行知識萃取的起點。
+        <div class="info-box" style="margin-top: 16px;">
+            <strong>節奏提醒：</strong>每一輪提問後，花 1–2 分鐘快速瀏覽 NotebookLM 的回覆，確認內容符合預期。如果某個回答不夠完整，可以立即追問補充，不需要等到最後才發現遺漏。
         </div>
     </div>
 
-    <!-- Slide 4: 第一輪：廣度掃描 -->
+    <!-- Slide 4: 上傳 PDF 到 NotebookLM -->
     <div class="slide" data-slide="4">
-        <h2>第一輪提問：廣度掃描 —「這個章節在講什麼？」</h2>
+        <h1>上傳 PDF 到 NotebookLM</h1>
+        <div class="info-box">
+            <strong>操作時間：0:05–0:10（約 5 分鐘）</strong>——這是整個流程的第一步，把你的論文章節「餵」給 NotebookLM，讓它幫你建立知識索引。
+        </div>
+        <ol class="steps-list" style="margin-top: 18px;">
+            <li>打開瀏覽器，前往 <strong>notebooklm.google.com</strong>（需要用 Google 帳號登入）</li>
+            <li>點選畫面上的「<strong>新增筆記本</strong>」按鈕，建立一個全新的專案空間</li>
+            <li>在左側面板點選「<strong>上傳來源</strong>」，然後選擇你電腦中的 <strong>學習理論 Ch.W.pdf</strong> 檔案上傳</li>
+            <li>等待系統處理，通常需要 <strong>1–2 分鐘</strong>。這段時間 NotebookLM 會自動解析 PDF 中的所有文字內容</li>
+            <li>處理完成後，系統會自動生成一份<strong>「來源摘要」（Source Summary）</strong>，這份摘要就是 NotebookLM 對整個章節的初步理解</li>
+            <li>快速瀏覽這份自動摘要，確認 NotebookLM 有正確辨識出章節的主題和範圍（例如：是否正確辨識出「Worked Examples」這個主題）</li>
+        </ol>
+        <div class="info-box" style="margin-top: 16px;">
+            <strong>小提醒：</strong>NotebookLM 自動生成的來源摘要只是起點，它的內容通常比較概括。接下來我們要透過精心設計的提示詞，引導 NotebookLM 幫我們做更深入、更有結構的知識萃取。自動摘要 ≠ 知識萃取，真正的價值在後面的提問環節。
+        </div>
+    </div>
 
-        <div class="code-label">提示詞 1 — 章節核心定義與範圍</div>
+    <!-- Slide 5: 第一輪提問 — 提示詞 1 -->
+    <div class="slide" data-slide="5">
+        <h2>第一輪提問（0:10–0:18）：廣度掃描</h2>
+        <h3>提示詞 1 — 章節核心定義與範圍</h3>
+        <div class="info-box">
+            <strong>目的：</strong>用四個角度同時切入，一次建立章節的完整輪廓。分別從「是什麼」、「怎麼運作」、「包含什麼」、「適合什麼場合」來問，確保不遺漏任何面向。
+        </div>
+
+        <div class="code-label" style="margin-top: 16px;">完整提示詞（直接複製貼上）</div>
         <div class="code-block">請用繁體中文，針對「W is for Worked Examples」這一章：
 1. 什麼是工作範例？請給出核心定義
 2. 核心運作原理是什麼？
 3. 涵蓋哪些主要議題？
 4. 適合用在什麼情境？
 專有名詞標示中英對照</div>
-        <div class="info-box" style="margin-top: 8px;">
-            <strong>&#x1F4A1; 提示詞設計邏輯：</strong>用四個問句分別從「是什麼、怎麼運作、包含什麼、適合什麼場合」切入，確保一次就能建立完整的章節輪廓。要求中英對照則是為了後續簡報的學術規格。
-        </div>
 
-        <div class="code-label" style="margin-top: 8px;">提示詞 2 — 關鍵概念術語提取</div>
-        <div class="code-block">請整理所有重要專有名詞，以表格呈現：
-| 中文名稱 | 英文原文 | 簡要定義 |
-至少列出 10 個核心詞彙</div>
-        <div class="info-box" style="margin-top: 8px;">
-            <strong>&#x1F4A1; 提示詞設計邏輯：</strong>表格格式讓散落在各處的專有名詞集中呈現，日後製作簡報時可以直接引用，不用再回頭翻找。
-        </div>
-
+        <ul style="margin-top: 16px;">
+            <li><strong>問題 1「什麼是工作範例」：</strong>要求 NotebookLM 給出精確定義，這是整份簡報的開場基礎——如果連定義都說不清，後面的內容就站不住腳</li>
+            <li><strong>問題 2「核心運作原理」：</strong>追問「為什麼有效」的機制層面，例如認知負荷理論如何支撐工作範例的有效性</li>
+            <li><strong>問題 3「涵蓋哪些主要議題」：</strong>讓 NotebookLM 幫你列出章節的內容結構，等於拿到一份「目錄地圖」</li>
+            <li><strong>問題 4「適合什麼情境」：</strong>了解工作範例的適用條件與限制，這在簡報的「應用與建議」段落會用到</li>
+            <li><strong>「專有名詞中英對照」：</strong>學術簡報要求術語規格統一，提前要求中英對照，後續就不需要再回頭一個一個查</li>
+        </ul>
         <div class="info-box" style="margin-top: 12px;">
-            第一輪的重點在於<strong>快速掌握章節全貌</strong>——定義、機制、結構、適用情境，以及散落在各處的專有名詞。
+            <strong>預期產出：</strong>一份涵蓋定義、機制、結構、情境的章節概覽，所有專有名詞附上英文原文，構成章節的「完整輪廓」。
         </div>
     </div>
 
-    <!-- Slide 5: 第二輪：深度鑽探 -->
-    <div class="slide" data-slide="5">
-        <h2>第二輪提問：深度鑽探 —「為什麼工作範例有效？」</h2>
+    <!-- Slide 6: 第一輪提問 — 提示詞 2 -->
+    <div class="slide" data-slide="6">
+        <h2>第一輪提問（續）：廣度掃描</h2>
+        <h3>提示詞 2 — 關鍵概念與術語提取</h3>
+        <div class="info-box">
+            <strong>目的：</strong>把散落在章節各處的專有名詞「集合」到一張表格裡。論文中的術語往往分散在不同段落，手動整理很花時間，讓 NotebookLM 一次幫你彙整。
+        </div>
 
-        <div class="code-label">提示詞 3 — 理論基礎追問</div>
+        <div class="code-label" style="margin-top: 16px;">完整提示詞（直接複製貼上）</div>
+        <div class="code-block">請整理所有重要專有名詞，以表格呈現：
+| 中文名稱 | 英文原文 | 簡要定義 |
+至少列出 10 個核心詞彙</div>
+
+        <ul style="margin-top: 16px;">
+            <li><strong>為什麼要求「表格」格式？</strong>表格讓資訊一目了然，方便後續做簡報時直接截取使用，比條列式更有結構感</li>
+            <li><strong>為什麼要求「至少 10 個」？</strong>設定數量下限，避免 AI 只挑出最明顯的 3-4 個就停了。10 個以上才能涵蓋章節中的重要概念</li>
+            <li><strong>三欄設計的用意：</strong>「中文名稱」供簡報內文使用；「英文原文」確保學術正確性；「簡要定義」幫助你快速回憶每個詞的意思</li>
+            <li><strong>這張表的後續用途：</strong>製作簡報時，可以直接從這張表中挑選 5-6 個最關鍵的詞彙做成「關鍵術語」投影片，或放在簡報附錄供聽眾參考</li>
+            <li><strong>檢查重點：</strong>拿到回覆後，快速確認是否涵蓋了你閱讀時印象深刻的術語。如果有遺漏，可以追問「還有沒有其他重要的術語？」</li>
+        </ul>
+        <div class="info-box" style="margin-top: 12px;">
+            <strong>預期產出：</strong>一張至少 10 個核心詞彙的中英對照表，每個詞附上簡要定義。這張表是你製作簡報術語頁的直接素材。
+        </div>
+        <div class="info-box" style="margin-top: 12px;">
+            <strong>第一輪小結：</strong>完成提示詞 1 和 2 後，你已經掌握了章節的<strong>「外觀輪廓」</strong>——知道它在講什麼、涵蓋哪些主題、用了哪些術語。接下來要往「裡面」鑽，看它的理論根基。
+        </div>
+    </div>
+
+    <!-- Slide 7: 第二輪提問 — 提示詞 3 -->
+    <div class="slide" data-slide="7">
+        <h2>第二輪提問（0:18–0:26）：深度鑽探</h2>
+        <h3>提示詞 3 — 理論基礎追問</h3>
+        <div class="info-box">
+            <strong>目的：</strong>深入挖掘支撐工作範例的理論根基——認知負荷理論（Cognitive Load Theory），以及書中最經典的實證案例：Chandler &amp; Sweller（1991）配線圖實驗。
+        </div>
+
+        <div class="code-label" style="margin-top: 16px;">完整提示詞（直接複製貼上）</div>
         <div class="code-block">針對認知負荷理論（Cognitive Load Theory）：
 1. 核心主張？（引用 Sweller）
 2. 分散注意力效應？舉書中例子
 3. Figure W.1 和 W.2 配線圖差異？
 4. 為什麼比直接解題有效？
 引用書中原文佐證</div>
-        <div class="info-box" style="margin-top: 8px;">
-            <strong>&#x1F4A1; 提示詞設計邏輯：</strong>特別點名 Figure W.1 / W.2，是因為配線圖案例是書中最經典的實證比較，簡報中放入這個案例能讓聽眾馬上理解「分散注意力效應」的真實影響。
+
+        <ul style="margin-top: 16px;">
+            <li><strong>問題 1「核心主張」：</strong>要求引用 Sweller 的原始論述，確保簡報中呈現的理論有明確的學術出處，不是 AI 自己編的</li>
+            <li><strong>問題 2「分散注意力效應」（Split-Attention Effect）：</strong>這是認知負荷理論中與工作範例最直接相關的效應——當學習者必須在不同來源之間來回對照時，會消耗額外的認知資源</li>
+            <li><strong>問題 3 特別點名 Figure W.1 和 W.2：</strong>這是書中最經典的配線圖（wiring diagram）案例，出自 Chandler &amp; Sweller（1991）的實驗。<strong>Figure W.1</strong> 是原始版——文字說明和電路圖分開放置，學習者必須視線來回切換；<strong>Figure W.2</strong> 是改良版——操作步驟直接以編號標示在電路圖上，學習者不需要切換注意力。實驗結果顯示改良版的學習效果顯著優於原始版</li>
+            <li><strong>問題 4「為什麼比直接解題有效」：</strong>這是工作範例效應（Worked Example Effect）的核心論點——研讀已解決的範例比自己從零開始解題更有效率，因為減少了不必要的認知負荷</li>
+            <li><strong>「引用書中原文佐證」：</strong>要求 NotebookLM 附上原文引述，確保我們萃取的內容有據可查，簡報中可以標註頁碼或直接引用</li>
+        </ul>
+        <div class="info-box" style="margin-top: 12px;">
+            <strong>預期產出：</strong>認知負荷理論的核心論述、分散注意力效應的解釋與配線圖案例（Figure W.1 vs W.2 的對比分析）、工作範例效應的原理說明，全部附上書中原文出處。
+        </div>
+    </div>
+
+    <!-- Slide 8: 第二輪提問 — 提示詞 4 -->
+    <div class="slide" data-slide="8">
+        <h2>第二輪提問（續）：深度鑽探</h2>
+        <h3>提示詞 4 — 關鍵研究與實證提取</h3>
+        <div class="info-box">
+            <strong>目的：</strong>學術簡報必須有文獻支撐。這道提示詞要求 NotebookLM 把章節中引用的所有研究整理成清單，並區分哪些是「核心文獻」、哪些是「補充文獻」，幫你決定簡報中優先引用誰。
         </div>
 
-        <div class="code-label" style="margin-top: 8px;">提示詞 4 — 關鍵研究提取</div>
+        <div class="code-label" style="margin-top: 16px;">完整提示詞（直接複製貼上）</div>
         <div class="code-block">列出所有研究文獻，表格呈現：
 | 研究者（年份） | 研究主題 | 在本章角色 |
 標示核心文獻 vs 補充文獻</div>
-        <div class="info-box" style="margin-top: 8px;">
-            <strong>&#x1F4A1; 提示詞設計邏輯：</strong>學術簡報必須有文獻支撐。區分「核心」與「補充」文獻，有助於在簡報中優先引用最關鍵的研究。
-        </div>
 
+        <ul style="margin-top: 16px;">
+            <li><strong>為什麼要列出「所有」研究文獻？</strong>先求全、再篩選。如果一開始就只要 AI 挑重點，可能會漏掉你需要的文獻</li>
+            <li><strong>三欄設計的用意：</strong>「研究者（年份）」是標準學術引用格式；「研究主題」讓你快速了解每篇在研究什麼；「在本章角色」標明這篇文獻在章節中扮演什麼角色（例如：提出核心理論、提供實證支持、提出反面論點等）</li>
+            <li><strong>「核心文獻 vs 補充文獻」的區分：</strong>核心文獻是章節論述的骨幹（如 Sweller 的認知負荷理論、Chandler &amp; Sweller 的配線圖實驗），簡報中必須引用；補充文獻是延伸佐證，視時間決定是否納入</li>
+            <li><strong>簡報中的文獻使用策略：</strong>15 分鐘的學術簡報通常引用 5-8 篇核心文獻就足夠，其餘放在備用或附錄頁</li>
+            <li><strong>檢查重點：</strong>確認 Sweller、Chandler &amp; Sweller（1991）、以及其他你在閱讀時看到的重要作者都有被列出來</li>
+            <li><strong>追問技巧：</strong>如果回覆中某篇文獻的「在本章角色」描述太模糊，可以追問：「請詳細說明 [作者名] 的研究在本章中具體被怎麼引用？」</li>
+        </ul>
         <div class="info-box" style="margin-top: 12px;">
-            第二輪聚焦在<strong>理論根基</strong>與<strong>學術證據</strong>——這是論文簡報中最需要嚴謹呈現的部分。
+            <strong>預期產出：</strong>一份完整的文獻清單表格，每篇文獻標註核心或補充，附上研究主題與在本章的角色說明。這是你簡報「參考文獻」頁的直接素材。
         </div>
     </div>
 
-    <!-- Slide 6: 為什麼這樣設計提示詞？ -->
-    <div class="slide" data-slide="6">
-        <h1>為什麼這樣設計提示詞？</h1>
-        <ul class="design-list">
+    <!-- Slide 9: 提示詞設計邏輯總覽 -->
+    <div class="slide" data-slide="9">
+        <h1>提示詞設計邏輯總覽</h1>
+        <div class="info-box">
+            <strong>核心原則：</strong>每一道提示詞都像一把不同角度的探照燈，照亮章節的不同面向。四道提示詞合起來，就能拼成一張完整的知識地圖。
+        </div>
+        <ul class="design-list" style="margin-top: 18px;">
             <li>
-                <strong>提示詞 1：</strong>四個角度（定義、機制、結構、情境）→ 構成<strong>完整輪廓</strong>
+                <strong>提示詞 1（定義與範圍）：</strong>從四個角度切入——定義、機制、結構、情境——一次就建立章節的<strong>完整輪廓</strong>。這是「全景照」，讓你站在高處看清整個地形
             </li>
             <li>
-                <strong>提示詞 2：</strong>散落各處的專有名詞「集合」到<strong>一張表</strong>
+                <strong>提示詞 2（術語提取）：</strong>把散落在章節各處的專有名詞<strong>「集合」到一張表</strong>裡。這是「工具清單」，確保你手邊有所有需要的零件
             </li>
             <li>
-                <strong>提示詞 3：</strong>特別問 Figure W.1 / W.2 → <strong>經典案例</strong>，簡報好用
+                <strong>提示詞 3（理論追問）：</strong>特別點名 Figure W.1 / W.2 的配線圖案例，因為這是書中<strong>最經典的實證對比</strong>。簡報中放入這個案例，聽眾馬上就能理解「分散注意力效應」的真實影響。這是「殺手級案例」
             </li>
             <li>
-                <strong>提示詞 4：</strong>學術簡報需要引用文獻 → 先<strong>整理出來</strong>
+                <strong>提示詞 4（文獻整理）：</strong>學術簡報需要文獻引用支撐。先把所有文獻整理出來，區分核心與補充，簡報時才知道<strong>優先引用誰</strong>。這是「彈藥庫」
             </li>
         </ul>
         <div class="info-box" style="margin-top: 20px;">
-            每一道提示詞都有明確目的：<strong>從不同切面萃取資訊</strong>，最終拼成一張完整的知識地圖。<br>
-            好的提示詞 = 好的問題 = 好的原材料。
+            <strong>設計心法：好的提示詞 = 好的問題 = 好的原材料。</strong><br>
+            你問的問題越精準、越有結構，NotebookLM 給你的回覆就越有用。亂問一通得到的只是雜亂的資訊碎片；結構化提問得到的才是可以直接用來做簡報的素材。
         </div>
     </div>
 
-    <!-- Slide 7: 小結 -->
-    <div class="slide" data-slide="7">
-        <h1>小結：我們萃取到了什麼？</h1>
-        <ul class="checklist">
-            <li>&#x2705; <strong>章節全貌：</strong>涵蓋定義、機制、設計原則、成效、風險、應用</li>
-            <li>&#x2705; <strong>核心詞彙表：</strong>至少 10 個專有名詞中英對照</li>
-            <li>&#x2705; <strong>理論基礎：</strong>認知負荷理論、分散注意力效應、配線圖案例</li>
-            <li>&#x2705; <strong>文獻清單：</strong>所有被引用的研究</li>
-            <li class="arrow-item">&#x27A1;&#xFE0F; 這些是你的「原材料」，接下來要「蒸餾」成簡報</li>
+    <!-- Slide 10: 小結 -->
+    <div class="slide" data-slide="10">
+        <h1>小結：我們萃取到了什麼？（0:26–0:30）</h1>
+        <div class="info-box">
+            <strong>回顧時間：</strong>經過兩輪共四道提示詞的結構化提問，我們從章節中萃取出了四大類「原材料」。逐一確認你都拿到了：
+        </div>
+        <ul class="checklist" style="margin-top: 18px;">
+            <li>&#x2705; <strong>產出 1 — 章節全貌：</strong>涵蓋核心定義、運作機制、主要議題範圍、適用情境與限制條件。你現在能用 2-3 句話向別人說清楚「這個章節在講什麼」</li>
+            <li>&#x2705; <strong>產出 2 — 核心詞彙表：</strong>至少 10 個專有名詞的中英對照表，每個附上簡要定義。例如：工作範例（Worked Examples）、認知負荷（Cognitive Load）、分散注意力效應（Split-Attention Effect）等</li>
+            <li>&#x2705; <strong>產出 3 — 理論基礎：</strong>認知負荷理論的核心論述（Sweller）、分散注意力效應的機制說明、Chandler &amp; Sweller（1991）配線圖實驗的對比分析（Figure W.1 原始版 vs Figure W.2 改良版）、工作範例效應的原理</li>
+            <li>&#x2705; <strong>產出 4 — 文獻清單：</strong>章節中所有被引用的研究文獻，已區分核心文獻與補充文獻，每篇標註研究主題和在本章的角色</li>
+            <li class="arrow-item">這些就是你的「原材料」——零散、未經整理、但資訊量充足。接下來的第二階段，我們要把這些原材料「蒸餾」成簡報大綱</li>
         </ul>
-        <div class="info-box" style="margin-top: 24px;">
-            完成知識萃取後，你已經擁有了做簡報的所有素材。<br>
-            下一階段，我們將進入<strong>「結構化整理」</strong>，把原材料組織成簡報的骨架。
+        <div class="info-box" style="margin-top: 20px;">
+            <strong>從萃取到蒸餾的轉換：</strong>如果把做簡報比喻成蓋房子——第一階段（知識萃取）是「備料」，你現在手上有磚頭、水泥、鋼筋、木材。第二階段（知識蒸餾）是「畫設計圖」，決定這些材料要怎麼組裝成一棟結構穩固的房子。準備好了嗎？讓我們進入下一階段！
         </div>
     </div>
 
     <!-- Navigation Slide -->
-    <div class="slide" data-slide="8">
+    <div class="slide" data-slide="11">
         <div style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; max-width: 960px; width: 100%; background: #fff; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); padding: 48px 56px; animation: fadeSlide 0.45s ease;">
             <div style="font-size: 64px; margin-bottom: 24px;">&#x2705;</div>
             <h2 style="color: #1e3c72; font-size: 32px; border: none; margin-bottom: 16px;">本單元完成！</h2>

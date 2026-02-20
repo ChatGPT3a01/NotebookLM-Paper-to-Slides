@@ -279,6 +279,47 @@
             line-height: 1.5;
         }
 
+        /* ===== Info Box ===== */
+        .info-box {
+            background: linear-gradient(135deg, #e8f4fd, #d6ecfa);
+            border-left: 5px solid #2a5298;
+            padding: 18px 24px;
+            border-radius: 0 14px 14px 0;
+            margin: 20px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #1a3a6a;
+        }
+        .info-box .icon { font-size: 26px; flex-shrink: 0; margin-top: 2px; }
+
+        /* ===== Checklist ===== */
+        .checklist {
+            list-style: none;
+            margin: 16px 0;
+            padding: 0;
+        }
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f2f7;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #444;
+        }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist li::before {
+            content: '\u2610';
+            font-size: 20px;
+            color: #2a5298;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
         /* ===== Funnel / Flow Visualization ===== */
         .flow-container {
             margin: 10px 0;
@@ -574,159 +615,285 @@
                 <div class="cover-icon">&#x1F3AF;</div>
                 <h1>第四階段：品質把關與最終產出</h1>
                 <p class="cover-subtitle">1:30–2:00 &#x2502; 品質檢查 + 簡報編輯 + 流程回顧</p>
+                <p style="font-size:17px; color:#555; max-width:800px; margin:0 auto 28px; line-height:1.8;">
+                    這是整個知識蒸餾流程的最後 30 分鐘。在這個階段，我們要完成三件關鍵任務：<br>
+                    <strong>&#x2460; 品質檢查</strong> — 確認簡報內容沒有錯誤、沒有遺漏<br>
+                    <strong>&#x2461; 簡報編輯</strong> — 使用 NotebookLM 簡報編輯功能，或匯出 PPTX<br>
+                    <strong>&#x2462; 流程回顧</strong> — 帶學員回顧整個知識蒸餾過程，帶走的不只是簡報，還有可重複使用的方法
+                </p>
                 <div class="cover-tags">
-                    <span class="tag">品質把關</span>
-                    <span class="tag">PPTX 匯出</span>
+                    <span class="tag">第八輪：品質把關</span>
+                    <span class="tag">NotebookLM 簡報生成</span>
+                    <span class="tag">匯出 PPTX</span>
+                    <span class="tag">知識蒸餾回顧</span>
                     <span class="tag">方法論總結</span>
                 </div>
             </div>
             <div class="slide-footer">&copy; 2026 阿亮老師</div>
         </div>
 
-        <!-- ========== Slide 2: 第八輪提問 ========== -->
+        <!-- ========== Slide 2: 時間配置 ========== -->
+        <div class="slide">
+            <div class="card">
+                <h2>&#x23F0; 第四階段時間配置（30 分鐘）</h2>
+
+                <p>最後 30 分鐘是整個知識蒸餾流程的「收尾階段」，需要完成品質檢查、簡報生成、編輯匯出，以及方法論的回顧與總結。每一段時間都有明確的任務目標：</p>
+
+                <ol class="steps-list">
+                    <li><strong>1:30–1:38（8 分鐘）第八輪提問：最終品質檢查</strong> — 使用結構化檢查清單，逐項審查簡報內容的正確性、完整性與一致性，確保沒有 AI 幻覺或遺漏</li>
+                    <li><strong>1:38–1:45（7 分鐘）NotebookLM 簡報生成功能示範</strong> — 在 NotebookLM 筆記本中選擇「生成簡報」，貼入大綱引導 AI 生成初稿，並即時示範操作流程</li>
+                    <li><strong>1:45–1:52（7 分鐘）簡報編輯與匯出 PPTX</strong> — 使用內建編輯器調整文字排版，將前七輪精煉過的 bullet points 貼入對應頁面，並匯出為 PPTX 檔案</li>
+                    <li><strong>1:52–1:56（4 分鐘）回顧知識蒸餾流程</strong> — 帶學員從「原始 PDF」到「15 分鐘簡報」的完整路徑，理解八輪提問的漏斗邏輯</li>
+                    <li><strong>1:56–2:00（4 分鐘）課程總結與 Q&amp;A</strong> — 總結三大學習重點，強調方法論的可重複使用性，開放現場提問</li>
+                </ol>
+
+                <div class="info-box">
+                    <span class="icon">&#x1F4A1;</span>
+                    <div><strong>時間管理提醒：</strong>品質檢查（第八輪提問）是最重要的環節，請確保至少 8 分鐘。如果時間不夠，可以壓縮「回顧」和「Q&amp;A」的時間，但品質檢查不能省略 — 因為 AI 生成的內容一定需要人工審查。</div>
+                </div>
+            </div>
+            <div class="slide-footer">&copy; 2026 阿亮老師</div>
+        </div>
+
+        <!-- ========== Slide 3: 第八輪提問 ========== -->
         <div class="slide">
             <div class="card">
                 <h2>&#x1F50D; 第八輪提問：品質把關 —「準備好了嗎？」</h2>
 
-                <span class="code-label">提示詞 12</span>
-                <div class="code-block">品質審查檢查清單：
+                <p>這是八輪提問的最後一輪，也是最關鍵的一輪。前七輪完成了內容的蒸餾與打磨，第八輪的任務是以「品質審查者」的角色，對最終產出進行全面檢查。就像論文投稿前的最後校對，一個錯誤都不能放過。</p>
+
+                <h3>&#x1F4CB; 提示詞 12 — 最終品質檢查</h3>
+                <span class="code-label">提示詞 12：最終品質檢查</span>
+                <div class="code-block">作為學術報告品質審查者，請根據以下檢查清單逐項審查這份簡報內容：
+
+品質審查檢查清單：
 □ 所有專有名詞有中英對照
-□ 每頁 3-5 個 bullet
-□ 講稿與投影片一致
-□ 邏輯通順
-□ 無虛構內容
-□ 引用確實來自本章
-□ 時間合計 15 分鐘
-□ 涵蓋核心概念：認知負荷理論、分散注意力效應、
-  任務分解、專家盲點、逐步淡出、自我解釋</div>
+　（例如：認知負荷理論 Cognitive Load Theory）
+□ 每頁 3-5 個 bullet points，不多不少
+□ 講稿與投影片內容一致，沒有矛盾
+□ 邏輯通順，符合以下順序：
+　背景→理論→概念→設計→證據→風險→應用→反思→結論
+□ 無虛構內容（AI 有時會「幻覺」生成書中沒有的內容）
+□ 所有引用確實來自本章（第 366-379 頁）
+□ 口頭報告時間合計 15 分鐘
+□ 涵蓋以下核心概念：
+　- 認知負荷理論（Cognitive Load Theory）
+　- 分散注意力效應（Split-Attention Effect）
+　- 任務分解（Task Decomposition）
+　- 專家盲點（Expert Blind Spot）
+　- 逐步淡出（Fading）
+　- 自我解釋（Self-Explanation）
+
+請逐項檢查並回報結果，標示 ✓ 通過或 ✗ 需修改。</div>
+
+                <div class="info-box">
+                    <span class="icon">&#x1F4A1;</span>
+                    <div><strong>為什麼要用檢查清單？</strong>檢查清單（Checklist）是航空業和醫療業的標準做法 — 即使是專家，面對複雜任務時也可能遺漏。將品質審查結構化為清單，可以確保每一項都被檢查到，不會因為疲勞或疏忽而遺漏關鍵問題。</div>
+                </div>
 
                 <div class="warning-box">
                     <span class="icon">&#x26A0;&#xFE0F;</span>
-                    <div><strong>注意：</strong>AI 有時會「幻覺」— 生成書中沒有的內容，品質檢查很重要。務必逐項確認，確保所有內容都來自原始文獻，而非 AI 自行編造。</div>
+                    <div><strong>最重要的提醒：</strong>AI 生成的是「初稿」而非「定稿」！即使 NotebookLM 回報所有項目都通過，你仍然必須親自逐項確認。AI 有時會「幻覺」（Hallucination）— 也就是自信滿滿地生成書中根本沒有的內容。只有人工審查才能真正確保品質。記住：<strong>AI 是助手，不是裁判。</strong></div>
                 </div>
             </div>
             <div class="slide-footer">&copy; 2026 阿亮老師</div>
         </div>
 
-        <!-- ========== Slide 3: NotebookLM 簡報功能 ========== -->
+        <!-- ========== Slide 4: NotebookLM 簡報生成功能 ========== -->
         <div class="slide">
             <div class="card">
-                <h2>&#x1F4CA; NotebookLM 簡報生成與編輯</h2>
+                <h2>&#x1F4CA; NotebookLM 簡報生成功能（Step 1-3）</h2>
+
+                <p>NotebookLM 內建了簡報生成功能，可以根據筆記本中的來源資料，自動生成一份結構化的投影片初稿。以下是完整的操作步驟：</p>
+
+                <h3>步驟一：啟動簡報生成</h3>
+                <ol class="steps-list">
+                    <li><strong>在筆記本中選擇「生成簡報」</strong> — 開啟你的 NotebookLM 筆記本，在功能列中找到「簡報」或「Slides」選項，點擊「生成簡報」按鈕啟動功能</li>
+                    <li><strong>輸入簡報主題（可將大綱貼入作為引導）</strong> — 這是關鍵步驟！不要只輸入簡單的標題，而是把我們在第四輪（架構組織）產出的完整大綱貼入，讓 AI 按照你的架構來生成，而非自行決定結構</li>
+                    <li><strong>等待系統生成初稿</strong> — NotebookLM 會根據你的來源資料和輸入的主題/大綱，自動產生一份包含多頁投影片的初稿。生成時間約 30 秒至 1 分鐘</li>
+                </ol>
+
+                <div class="info-box">
+                    <span class="icon">&#x1F4A1;</span>
+                    <div><strong>為什麼要貼入大綱？</strong>如果只輸入「認知負荷理論」這樣的簡單標題，AI 會自行決定簡報的架構和重點，可能與你前七輪精心蒸餾的內容不一致。貼入完整大綱，相當於給 AI 一個「模板」，確保生成的初稿結構與你的設計一致。</div>
+                </div>
+
+                <div class="warning-box">
+                    <span class="icon">&#x26A0;&#xFE0F;</span>
+                    <div><strong>重要觀念：</strong>NotebookLM 生成的簡報是「初稿」而非「成品」。AI 自動生成的 bullet points 可能不如你前七輪精煉過的內容精準。接下來的「編輯」步驟才是真正決定簡報品質的關鍵。</div>
+                </div>
+            </div>
+            <div class="slide-footer">&copy; 2026 阿亮老師</div>
+        </div>
+
+        <!-- ========== Slide 5: 簡報編輯與匯出 ========== -->
+        <div class="slide">
+            <div class="card">
+                <h2>&#x270F;&#xFE0F; 簡報編輯與匯出 PPTX（Step 4-7）</h2>
+
+                <p>生成初稿後，接下來是最重要的「編輯」階段。這個階段的核心任務是：用前七輪精煉過的高品質 bullet points，替換 AI 自動生成的粗糙內容。</p>
 
                 <ol class="steps-list">
-                    <li>選擇「生成簡報」</li>
-                    <li>輸入簡報主題（貼入大綱作為引導）</li>
-                    <li>等待系統生成初稿</li>
-                    <li>使用內建編輯器修改文字、調整排版</li>
-                    <li>將精煉過的 bullets 貼入對應頁面</li>
-                    <li>匯出為 PPTX 檔案</li>
-                    <li>在 PowerPoint 中套用版型</li>
+                    <li><strong>使用內建編輯器修改文字、調整排版</strong> — NotebookLM 提供了線上編輯器，可以直接在瀏覽器中修改每頁投影片的標題、內文與排版，不需要額外安裝軟體</li>
+                    <li><strong>將精煉過的 bullet points 貼入對應頁面</strong> — 這是最關鍵的一步！打開前幾輪（特別是第六輪「內容填充」和第七輪「語言打磨」）的產出，逐頁將精煉過的 bullets 複製貼上，替換 AI 自動生成的內容</li>
+                    <li><strong>匯出為 PPTX 檔案</strong> — 編輯完成後，點擊「匯出」或「Download」按鈕，將簡報下載為標準的 .pptx 格式，可以在 Microsoft PowerPoint 或 Google Slides 中開啟</li>
+                    <li><strong>在 PowerPoint 中套用指定版型</strong> — 開啟匯出的 PPTX 後，套用學校或課程指定的簡報版型，確保視覺風格統一</li>
                 </ol>
+
+                <div class="info-box">
+                    <span class="icon">&#x1F3A8;</span>
+                    <div><strong>簡報版型說明：</strong><br>
+                    <strong>封面版型：</strong>深藍色 Navy Blue 幾何方塊、左側淺藍漸層色塊、中間右側深藍橫向色帶<br>
+                    <strong>內頁版型：</strong>頂部極窄深藍色漸層橫條、大面積白色空間、極簡學術風格<br>
+                    整體風格以「專業、簡潔、學術感」為主軸，避免過度裝飾</div>
+                </div>
+
                 <div class="warning-box">
-                    <span class="icon">&#x1F4A1;</span>
-                    <div>NotebookLM 生成的簡報是「初稿」而非「成品」。關鍵步驟是第 5 步：用前幾輪精煉過的 bullets 替換 AI 自動生成的內容，這樣才能確保簡報品質。</div>
+                    <span class="icon">&#x26A0;&#xFE0F;</span>
+                    <div><strong>常見錯誤：</strong>很多人直接使用 AI 生成的初稿就上台報告 — 這是大忌！AI 生成的 bullet points 通常太籠統、缺乏精確性。一定要用你自己精煉過的內容替換，這才是「知識蒸餾」的價值所在。</div>
                 </div>
             </div>
             <div class="slide-footer">&copy; 2026 阿亮老師</div>
         </div>
 
-        <!-- ========== Slide 4: 參考資源 ========== -->
+        <!-- ========== Slide 6: 參考資源 ========== -->
         <div class="slide">
             <div class="card">
-                <h2>&#x1F4DA; NotebookLM 簡報編輯參考</h2>
+                <h2>&#x1F4DA; NotebookLM 簡報編輯參考資源</h2>
+
+                <p>以下是關於 NotebookLM 簡報生成與編輯功能的參考教學資源，建議課後進一步閱讀，掌握更多進階技巧：</p>
 
                 <div class="resource-grid">
                     <div class="resource-card">
                         <span class="rc-icon">&#x1F4D6;</span>
-                        <span class="rc-text">NotebookLM 簡報編輯器全攻略</span>
+                        <div>
+                            <span class="rc-text">NotebookLM 簡報編輯器全攻略</span>
+                            <p style="margin:4px 0 0; font-size:14px; color:#666;">完整介紹 NotebookLM 簡報編輯器的所有功能，包含文字編輯、頁面新增刪除、圖片插入等操作指南</p>
+                        </div>
                     </div>
                     <div class="resource-card">
                         <span class="rc-icon">&#x1F4E2;</span>
-                        <span class="rc-text">NotebookLM 官方首發：線上修改 PDF 簡報</span>
+                        <div>
+                            <span class="rc-text">NotebookLM 官方首發：線上修改 PDF 簡報</span>
+                            <p style="margin:4px 0 0; font-size:14px; color:#666;">Google 官方發布的功能介紹，說明如何在 NotebookLM 中直接編輯和修改已生成的 PDF 簡報</p>
+                        </div>
                     </div>
                     <div class="resource-card">
                         <span class="rc-icon">&#x2728;</span>
-                        <span class="rc-text">NotebookLM 新功能：一鍵修改簡報</span>
+                        <div>
+                            <span class="rc-text">NotebookLM 新功能：一鍵修改簡報與下載 PPTX 完整指南</span>
+                            <p style="margin:4px 0 0; font-size:14px; color:#666;">詳細的步驟教學，從生成簡報、線上編輯到匯出 PPTX 的完整流程，附有操作截圖</p>
+                        </div>
                     </div>
                     <div class="resource-card">
                         <span class="rc-icon">&#x1F9EA;</span>
-                        <span class="rc-text">NotebookLM 開放修改簡報實測</span>
+                        <div>
+                            <span class="rc-text">NotebookLM 開放修改簡報實測</span>
+                            <p style="margin:4px 0 0; font-size:14px; color:#666;">實際操作測試報告，展示 NotebookLM 簡報編輯功能的優缺點與使用心得</p>
+                        </div>
                     </div>
                     <div class="resource-card">
                         <span class="rc-icon">&#x1F4E5;</span>
-                        <span class="rc-text">NotebookLM 支援修改簡報與匯出 PPTX</span>
+                        <div>
+                            <span class="rc-text">NotebookLM 支援修改簡報與匯出 PPTX</span>
+                            <p style="margin:4px 0 0; font-size:14px; color:#666;">聚焦於 PPTX 匯出功能的教學，說明匯出後如何在 PowerPoint 中進一步編輯和套用版型</p>
+                        </div>
                     </div>
+                </div>
+
+                <div class="info-box">
+                    <span class="icon">&#x1F4A1;</span>
+                    <div><strong>學習建議：</strong>NotebookLM 的簡報功能持續更新中，建議定期查看官方部落格以獲取最新功能資訊。目前的核心工作流程是：NotebookLM 生成初稿 → 線上編輯修改 → 匯出 PPTX → PowerPoint 套用版型。</div>
                 </div>
             </div>
             <div class="slide-footer">&copy; 2026 阿亮老師</div>
         </div>
 
-        <!-- ========== Slide 5: 完整知識蒸餾路徑 ========== -->
+        <!-- ========== Slide 7: 完整知識蒸餾路徑 ========== -->
         <div class="slide">
             <div class="card">
                 <h2>&#x1F504; 回顧：知識蒸餾的完整路徑</h2>
 
+                <p>讓我們從頭到尾回顧整個「知識蒸餾」流程。這個流程就像一個漏斗 — 上面寬（原始內容多），下面窄（簡報精煉）。知識通過漏斗被逐步篩選、壓縮、純化，最終成為一份 15 分鐘的學術簡報。</p>
+
                 <div class="flow-container">
-                    <div class="flow-step level-0">&#x1F4D5; 原始 PDF（547 頁）</div>
+                    <div class="flow-step level-0">&#x1F4D5; 原始 PDF（547 頁）— 一整本教科書的完整內容</div>
                     <div class="flow-arrow">&#x25BC;</div>
-                    <div class="flow-step level-1">&#x2702;&#xFE0F; 抽取 Ch.W（14 頁）</div>
+                    <div class="flow-step level-1">&#x2702;&#xFE0F; 抽取目標章節 Ch.W（第 366–379 頁，共 14 頁）</div>
                     <div class="flow-arrow">&#x25BC;</div>
-                    <div class="flow-step level-2">&#x1F916; Gemini Gem 逐頁精讀 → 「讀懂原文」</div>
+                    <div class="flow-step level-2">&#x1F916; Gemini Gem 逐頁精讀（紅藍筆標註）→ 「先讀懂原文」</div>
                     <div class="flow-arrow">&#x25BC;</div>
-                    <div class="flow-step level-3">&#x1F4AC; NotebookLM 八輪提問</div>
+                    <div class="flow-step level-3">&#x1F4AC; 上傳 NotebookLM → 八輪結構化提問</div>
                     <div class="flow-step level-sub">
-                        第 1–2 輪：廣度掃描 + 深度鑽探<br>
-                        第 3–4 輪：去蕪存菁 + 概念關聯<br>
-                        第 5–6 輪：架構組織 + 邏輯校正<br>
-                        第 7–8 輪：內容填充 + 語言打磨<br>
-                        &#x2714;&#xFE0F; 品質把關
+                        第 1 輪：廣度掃描 — 全面了解章節內容<br>
+                        第 2 輪：深度鑽探 — 深入核心概念<br>
+                        第 3 輪：去蕪存菁 — 篩選簡報級重點<br>
+                        第 4 輪：架構組織 — 建立簡報邏輯結構<br>
+                        第 5 輪：邏輯校正 — 調整論述鏈與因果關係<br>
+                        第 6 輪：內容填充 — 每頁 3-5 個精準 bullets<br>
+                        第 7 輪：語言打磨 — 口語化、加入過渡語句<br>
+                        第 8 輪：品質把關 — 結構化檢查清單逐項審查
                     </div>
                     <div class="flow-arrow">&#x25BC;</div>
-                    <div class="flow-step level-4">&#x1F3C6; 最終產出：15 分鐘學術簡報</div>
+                    <div class="flow-step level-4">&#x1F3C6; 最終產出：15 分鐘學術簡報（約 10-12 頁投影片）</div>
+                </div>
+
+                <div class="info-box">
+                    <span class="icon">&#x1F4A1;</span>
+                    <div><strong>漏斗比喻：</strong>547 頁 → 14 頁 → 精讀筆記 → 八輪提問 → 10-12 頁簡報。每一步都在「壓縮」和「純化」，最終留下的是最核心、最有價值的知識精華。這就是「知識蒸餾」的意義 — 不是刪減，而是提純。</div>
                 </div>
             </div>
             <div class="slide-footer">&copy; 2026 阿亮老師</div>
         </div>
 
-        <!-- ========== Slide 6: 方法論可重複使用 ========== -->
+        <!-- ========== Slide 8: 方法論可重複使用 ========== -->
         <div class="slide">
             <div class="card">
-                <h2>&#x1F504; 帶走的不只是一份簡報，還有一套方法</h2>
+                <h2>&#x267B;&#xFE0F; 帶走的不只是一份簡報，還有一套方法</h2>
+
+                <p>今天的課程，你學到的不只是「如何做一份認知負荷理論的簡報」，而是一套<strong>可重複使用的知識蒸餾方法論</strong>。下次報告任何論文，都可以用同樣的流程。</p>
 
                 <div class="takeaway-grid">
                     <div class="takeaway-item">
                         <span class="ti-icon">&#x267B;&#xFE0F;</span>
                         <div class="ti-content">
-                            <h3>這不是只能用一次的技巧</h3>
-                            <p>整套流程是可遷移的方法論，適用於不同領域的論文報告。</p>
+                            <h3>這不是只能用一次的技巧，而是可遷移的方法論</h3>
+                            <p>整套「知識蒸餾」流程適用於任何領域的論文報告 — 心理學、教育學、資訊科學、管理學都可以。只要換一份 PDF，流程完全相同。</p>
                         </div>
                     </div>
                     <div class="takeaway-item">
                         <span class="ti-icon">&#x1F4C4;</span>
                         <div class="ti-content">
-                            <h3>下次報告另一篇論文，用同樣的流程</h3>
-                            <p>替換原始文獻，按照同樣的八輪提問結構，就能產出新的學術簡報。</p>
+                            <h3>下次報告另一篇論文，用同樣的八輪提問結構</h3>
+                            <p>替換原始文獻，按照同樣的八輪提問結構（廣度掃描→深度鑽探→去蕪存菁→架構組織→邏輯校正→內容填充→語言打磨→品質把關），就能產出新的學術簡報。</p>
                         </div>
                     </div>
                     <div class="takeaway-item">
                         <span class="ti-icon">&#x1F48E;</span>
                         <div class="ti-content">
                             <h3>Gemini Gem 可以重複使用</h3>
-                            <p>已建立的 Gem 是你的個人化 AI 讀書助手，隨時可以再次啟用。</p>
+                            <p>你在第一階段建立的 Gem 是「個人化 AI 讀書助手」，它記住了你設定的角色（教育心理學教授）和互動方式（紅藍筆標註）。下次讀另一篇論文，直接啟用同一個 Gem 即可。</p>
                         </div>
                     </div>
                     <div class="takeaway-item">
                         <span class="ti-icon">&#x1F50D;</span>
                         <div class="ti-content">
                             <h3>NotebookLM 提示詞可以替換關鍵字</h3>
-                            <p>將提示詞中的章節名稱與核心概念替換，即可套用於新的主題。</p>
+                            <p>今天用的 12 個提示詞，只需要將「認知負荷理論」、「分散注意力效應」等核心概念替換成新論文的關鍵字，就能直接套用於新的主題，不需要從零開始設計提示詞。</p>
+                        </div>
+                    </div>
+                    <div class="takeaway-item">
+                        <span class="ti-icon">&#x1F4CB;</span>
+                        <div class="ti-content">
+                            <h3>品質檢查清單是通用的</h3>
+                            <p>第八輪的品質檢查清單（專有名詞中英對照、每頁 3-5 bullets、邏輯通順、無虛構內容等）適用於任何學術簡報的最終審查，建議存為模板反覆使用。</p>
                         </div>
                     </div>
                     <div class="takeaway-item" style="border-left-color: #1e3c72;">
                         <span class="ti-icon">&#x1F9E0;</span>
                         <div class="ti-content">
-                            <h3>核心思維</h3>
-                            <p><strong>先讀懂 → 再蒸餾 → 最後產出</strong>，這是不變的原則。</p>
+                            <h3>核心思維永遠不變</h3>
+                            <p><strong>先讀懂 → 再蒸餾 → 最後產出</strong>。不管工具怎麼變、AI 怎麼進化，這個「先理解、再提煉、最後呈現」的原則是不變的。AI 是加速器，但你的理解力和判斷力才是品質的保證。</p>
                         </div>
                     </div>
                 </div>
@@ -734,48 +901,102 @@
             <div class="slide-footer">&copy; 2026 阿亮老師</div>
         </div>
 
-        <!-- ========== Slide 7: 課程總結 ========== -->
+        <!-- ========== Slide 9: 課程總結 ========== -->
         <div class="slide">
             <div class="card">
-                <h2>&#x1F393; 今天我們學到了什麼？</h2>
+                <h2>&#x1F393; 課程總結：今天我們學到了什麼？</h2>
+
+                <p>兩個小時的課程即將結束。讓我們回顧今天的三大核心學習，這些不只是技術操作，更是面對 AI 時代的學習方法論。</p>
 
                 <div class="big-ideas">
                     <div class="big-idea">
                         <div class="bi-num">1</div>
                         <div class="bi-content">
-                            <h3>Gemini Gem — AI 個人化讀書夥伴</h3>
-                            <p>AI 可以變成你的個人化讀書夥伴，幫助你逐頁精讀、理解複雜學術文獻。</p>
+                            <h3>Gemini Gem — AI 可以變成你的個人化讀書夥伴</h3>
+                            <p>透過建立客製化的 Gem，AI 不再是冷冰冰的工具，而是一位懂你需求的讀書夥伴。它可以用「紅藍筆標註法」幫你逐頁精讀、用對話方式幫你理解複雜的學術概念。重點是：<strong>你定義角色，AI 配合你的學習風格</strong>。</p>
                         </div>
                     </div>
                     <div class="big-idea">
                         <div class="bi-num">2</div>
                         <div class="bi-content">
-                            <h3>知識蒸餾 — 有策略地提問和提純</h3>
-                            <p>不是複製貼上，而是透過結構化的八輪提問，將大量資訊濃縮為精華。</p>
+                            <h3>知識蒸餾 — 不是複製貼上，而是有策略的提問與提純</h3>
+                            <p>八輪結構化提問是整個課程的核心方法論。每一輪都有明確的目的：從「廣度掃描」到「品質把關」，像漏斗一樣，逐步將 547 頁的原始內容壓縮為 15 分鐘的精煉簡報。<strong>關鍵不在於 AI 多聰明，而在於你的提問有多精準</strong>。</p>
                         </div>
                     </div>
                     <div class="big-idea">
                         <div class="bi-num">3</div>
                         <div class="bi-content">
-                            <h3>好的學術報告 — 要有你自己的見解</h3>
-                            <p>不只是書的摘要，要有你自己的詮釋、架構與觀點，讓報告真正屬於你。</p>
+                            <h3>好的學術報告 — 要有你自己的理解、架構與見解</h3>
+                            <p>AI 幫你加速，但不能替代你的思考。好的學術報告不只是書本內容的搬運工，而是要有你自己的詮釋角度、邏輯架構與批判觀點。第七輪的「個人反思」就是讓報告從「AI 的摘要」變成「你的報告」的關鍵步驟。</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="closing-quote">
-                    「好的教學設計不只是『教什麼』，更是『如何呈現』」
+                    「好的教學設計不只是『教什麼』，更是『如何呈現』。<br>
+                    好的 AI 使用不只是『問什麼』，更是『如何引導』。」
                 </div>
             </div>
             <div class="slide-footer">&copy; 2026 阿亮老師</div>
         </div>
 
-        <!-- Navigation Slide -->
+        <!-- ========== Slide 10: Q&A ========== -->
+        <div class="slide">
+            <div class="card">
+                <h2>&#x2753; Q&amp;A 時間 — 常見問題與回答</h2>
+
+                <p>在課程結束前，以下是學員最常提出的問題，供大家參考：</p>
+
+                <div class="takeaway-grid">
+                    <div class="takeaway-item">
+                        <span class="ti-icon">&#x1F914;</span>
+                        <div class="ti-content">
+                            <h3>Q：八輪提問一定要按順序嗎？可以跳過某些輪次嗎？</h3>
+                            <p>A：建議按順序進行，因為每一輪都建立在前一輪的成果之上。但如果你已經很熟悉論文內容，可以加速前兩輪（廣度掃描和深度鑽探），把更多時間留給後面的架構組織和品質把關。</p>
+                        </div>
+                    </div>
+                    <div class="takeaway-item">
+                        <span class="ti-icon">&#x1F914;</span>
+                        <div class="ti-content">
+                            <h3>Q：如果 AI 生成了書中沒有的內容（幻覺），怎麼辦？</h3>
+                            <p>A：這就是第八輪「品質把關」存在的原因。發現幻覺時，直接刪除該段內容，或要求 AI 重新生成並附上「請只使用本章第 366-379 頁的內容」的限制條件。永遠以原始文獻為準。</p>
+                        </div>
+                    </div>
+                    <div class="takeaway-item">
+                        <span class="ti-icon">&#x1F914;</span>
+                        <div class="ti-content">
+                            <h3>Q：這套方法可以用在期刊論文（而非教科書章節）嗎？</h3>
+                            <p>A：完全可以！只需要調整第一步（不需要抽取章節，因為期刊論文通常就是完整一篇），其餘的八輪提問流程完全適用。提示詞中的「本章」改為「本文」即可。</p>
+                        </div>
+                    </div>
+                    <div class="takeaway-item">
+                        <span class="ti-icon">&#x1F914;</span>
+                        <div class="ti-content">
+                            <h3>Q：NotebookLM 免費嗎？有使用限制嗎？</h3>
+                            <p>A：NotebookLM 目前由 Google 免費提供，但有每日使用量的限制。如果遇到限制，可以隔天繼續，或使用 NotebookLM Plus 付費方案獲得更多用量。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <span class="icon">&#x1F4AC;</span>
+                    <div><strong>鼓勵發問：</strong>沒有笨問題，只有沒問的問題。如果現場有任何疑問，歡迎舉手提問。課後也歡迎透過 Facebook 社團或 YouTube 頻道留言交流。</div>
+                </div>
+            </div>
+            <div class="slide-footer">&copy; 2026 阿亮老師</div>
+        </div>
+
+        <!-- ========== Slide 11: Navigation ========== -->
         <div class="slide">
             <div class="card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px;">
                 <div style="font-size: 64px; margin-bottom: 24px;">&#x2705;</div>
-                <h2 style="color: #1e3c72; font-size: 32px; border: none; margin-bottom: 16px; padding-bottom: 0;">本單元完成！</h2>
-                <p style="font-size: 18px; color: #666; margin-bottom: 40px;">準備好進入下一個階段了嗎？</p>
+                <h2 style="color: #1e3c72; font-size: 32px; border: none; margin-bottom: 16px; padding-bottom: 0;">Part 5 — 品質把關與最終產出 完成！</h2>
+                <p style="font-size: 18px; color: #666; margin-bottom: 12px; line-height: 1.8;">
+                    恭喜完成整個知識蒸餾流程的學習！<br>
+                    你現在擁有了一套可重複使用的方法論：<br>
+                    <strong>先讀懂 → 再蒸餾 → 最後產出</strong>
+                </p>
+                <p style="font-size: 16px; color: #888; margin-bottom: 36px;">接下來可以查看完整的 15 分鐘簡報範例，看看最終成品長什麼樣子</p>
                 <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
                     <a href="index.html" style="display: inline-block; padding: 16px 36px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 30px; text-decoration: none; font-size: 17px; font-weight: 600; transition: all 0.3s; box-shadow: 0 6px 20px rgba(102,126,234,0.3);">&#x1F3E0; 回到統整頁</a>
                     <a href="Part6_簡報範例.html" style="display: inline-block; padding: 16px 36px; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 30px; text-decoration: none; font-size: 17px; font-weight: 600; transition: all 0.3s; box-shadow: 0 6px 20px rgba(30,60,114,0.3);">15 分鐘簡報範例 &#x2192;</a>
