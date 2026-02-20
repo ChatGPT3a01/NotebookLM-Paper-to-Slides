@@ -20,7 +20,7 @@
 
 本專案是一份 **2 小時教學示範課程**，示範如何運用 AI 工具將英文學術書籍章節轉化為學術簡報。
 
-- **示範書籍**：The ABCs of How We Learn（Schwartz, Tsang & Blair, 2016）
+- **示範書籍**：[The ABCs of How We Learn](https://drive.google.com/file/d/1jLxpYIlTJw-SMQtq2U8BTBFvCvPjGUHj/view?usp=drivesdk)（Schwartz, Tsang & Blair, 2016）
 - **示範章節**：Chapter W — Worked Examples（工作範例），第 366–379 頁
 - **最終產出**：15 分鐘學術簡報（含投影片內容 + 逐頁口頭講稿）
 
