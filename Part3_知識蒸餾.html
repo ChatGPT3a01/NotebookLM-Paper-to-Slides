@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 3 — 第二階段：知識蒸餾與簡報大綱</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ── 頂部導覽列 ── */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 25, 60, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            height: 56px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .nav-title {
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.18);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.22);
+            border-color: rgba(255,255,255,0.35);
+            transform: translateY(-1px);
+        }
+
+        /* ── 投影片容器 ── */
+        .slides-wrapper {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 80px 64px;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 960px;
+            max-height: calc(100vh - 150px);
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 24px;
+            padding: 48px 52px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255,255,255,0.1);
+            overflow-y: auto;
+            animation: slideIn 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .slide.active { display: block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(28px) scale(0.97); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* 捲軸美化 */
+        .slide::-webkit-scrollbar { width: 6px; }
+        .slide::-webkit-scrollbar-track { background: transparent; }
+        .slide::-webkit-scrollbar-thumb { background: rgba(30,60,114,0.2); border-radius: 3px; }
+        .slide::-webkit-scrollbar-thumb:hover { background: rgba(30,60,114,0.35); }
+
+        /* ── 封面投影片 ── */
+        .slide-cover {
+            display: none;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 420px;
+        }
+        .slide-cover.active {
+            display: flex;
+        }
+
+        .cover-icon { font-size: 64px; margin-bottom: 16px; }
+
+        .cover-title {
+            font-size: 40px;
+            font-weight: 800;
+            color: #1e3c72;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .cover-subtitle {
+            font-size: 20px;
+            color: #2a5298;
+            margin-bottom: 28px;
+            font-weight: 400;
+        }
+
+        .cover-tags {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cover-tag {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── 一般內容 ── */
+        h1 {
+            font-size: 30px;
+            color: #1e3c72;
+            margin-bottom: 24px;
+            font-weight: 800;
+            line-height: 1.35;
+            padding-bottom: 14px;
+            border-bottom: 3px solid #1e3c72;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #2a5298;
+            margin-bottom: 18px;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        h3 {
+            font-size: 17px;
+            color: #1e3c72;
+            margin: 18px 0 10px;
+            font-weight: 700;
+        }
+
+        p, li {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        ul, ol {
+            padding-left: 24px;
+            margin-bottom: 14px;
+        }
+
+        li { margin-bottom: 6px; }
+
+        strong { color: #1e3c72; }
+
+        /* ── 類比區塊 ── */
+        .metaphor-box {
+            background: linear-gradient(135deg, rgba(30,60,114,0.06), rgba(42,82,152,0.10));
+            border-left: 5px solid #2a5298;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 18px 0;
+        }
+
+        .metaphor-box p {
+            font-size: 15px;
+            color: #2a5298;
+        }
+
+        /* ── 資訊提示框 ── */
+        .info-box {
+            background: linear-gradient(135deg, #eef4ff, #e0ecff);
+            border: 1px solid rgba(42,82,152,0.2);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 18px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .info-box .info-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .info-box p {
+            font-size: 15px;
+            color: #1e3c72;
+            font-weight: 500;
+        }
+
+        /* ── 提示詞 code block ── */
+        .prompt-block {
+            background: #282c34;
+            color: #abb2bf;
+            border-radius: 12px;
+            padding: 22px 26px;
+            margin: 16px 0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.75;
+            overflow-x: auto;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .prompt-block .prompt-label {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.35);
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+
+        .prompt-block code {
+            color: #e6c07b;
+            font-family: inherit;
+        }
+
+        .prompt-block .comment {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .prompt-block .keyword {
+            color: #c678dd;
+        }
+
+        .prompt-block .string {
+            color: #98c379;
+        }
+
+        /* ── 步驟流程 ── */
+        .steps-flow {
+            display: flex;
+            gap: 12px;
+            margin: 18px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .step-card {
+            flex: 1;
+            min-width: 180px;
+            max-width: 240px;
+            background: linear-gradient(135deg, #f0f4ff, #e8eeff);
+            border-radius: 14px;
+            padding: 20px 16px;
+            text-align: center;
+            border: 1px solid rgba(42,82,152,0.12);
+            transition: transform 0.2s ease;
+        }
+
+        .step-card:hover { transform: translateY(-3px); }
+
+        .step-card .step-icon { font-size: 32px; margin-bottom: 8px; }
+
+        .step-card .step-num {
+            font-size: 12px;
+            color: #2a5298;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .step-card .step-title {
+            font-size: 16px;
+            color: #1e3c72;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .step-card .step-desc {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* ── 大綱流程列 ── */
+        .outline-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+            justify-content: center;
+            margin: 16px 0;
+        }
+
+        .outline-item {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .outline-arrow {
+            color: #2a5298;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* ── 核心原則表格 ── */
+        .principle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .principle-card {
+            background: linear-gradient(135deg, #f8faff, #f0f4ff);
+            border: 1px solid rgba(42,82,152,0.12);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .principle-card .p-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .principle-card .p-text {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .principle-card .p-text strong {
+            display: block;
+            color: #1e3c72;
+            margin-bottom: 2px;
+        }
+
+        /* ── 成果 checklist ── */
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+            margin: 16px 0;
+        }
+
+        .checklist li {
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #f0fff0, #e8f8e8);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            font-size: 16px;
+            border-left: 4px solid #27ae60;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist li .check-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        /* ── 檢查清單 ── */
+        .check-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .check-item {
+            background: #f8faff;
+            border: 1px solid rgba(42,82,152,0.1);
+            border-radius: 10px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .check-item .check-num {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ── 補充說明 ── */
+        .why-box {
+            background: rgba(255, 193, 7, 0.08);
+            border-left: 4px solid #f0a500;
+            border-radius: 0 10px 10px 0;
+            padding: 12px 18px;
+            margin: 14px 0;
+        }
+
+        .why-box p {
+            font-size: 14px;
+            color: #6d5200;
+        }
+
+        .why-box strong {
+            color: #c48800;
+        }
+
+        /* ── 箭頭導覽按鈕 ── */
+        .arrow-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 500;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .arrow-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .arrow-btn.disabled {
+            opacity: 0.25;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .arrow-prev { left: 18px; }
+        .arrow-next { right: 18px; }
+
+        /* ── 底部圓點指示器 ── */
+        .dots-bar {
+            position: fixed;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 500;
+            background: rgba(10, 25, 60, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .dot.active {
+            background: #fff;
+            transform: scale(1.3);
+            box-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+
+        .dot:hover:not(.active) {
+            background: rgba(255,255,255,0.55);
+        }
+
+        /* ── 頁尾 ── */
+        .slide-footer {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(30,60,114,0.1);
+            font-size: 13px;
+            color: #999;
+        }
+
+        /* ── 頁碼標籤 ── */
+        .page-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+        }
+
+        /* ── 比喻結語 ── */
+        .ending-metaphor {
+            text-align: center;
+            margin-top: 24px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(30,60,114,0.06), rgba(42,82,152,0.10));
+            border-radius: 14px;
+        }
+
+        .ending-metaphor .em-icon { font-size: 36px; margin-bottom: 8px; }
+
+        .ending-metaphor p {
+            font-size: 18px;
+            color: #1e3c72;
+            font-weight: 700;
+        }
+
+        .ending-metaphor .em-sub {
+            font-size: 15px;
+            color: #2a5298;
+            font-weight: 400;
+            margin-top: 6px;
+        }
+
+        /* ── RWD ── */
+        @media (max-width: 768px) {
+            .navbar { padding: 0 14px; height: 50px; }
+            .nav-title { font-size: 14px; }
+            .nav-btn { padding: 5px 10px; font-size: 12px; }
+            .slides-wrapper { padding: 16px 16px 56px; }
+            .slide { padding: 28px 22px; border-radius: 18px; }
+            .slide-cover { min-height: 320px; }
+            .cover-title { font-size: 28px; }
+            .cover-subtitle { font-size: 16px; }
+            h1 { font-size: 24px; }
+            h2 { font-size: 17px; }
+            .arrow-btn { width: 40px; height: 40px; font-size: 18px; }
+            .arrow-prev { left: 6px; }
+            .arrow-next { right: 6px; }
+            .steps-flow { flex-direction: column; align-items: center; }
+            .step-card { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── 導覽列 ── -->
+<nav class="navbar">
+    <span class="nav-title">Part 3 &mdash; 第二階段：知識蒸餾與簡報大綱</span>
+    <div class="nav-buttons">
+        <a href="index.html" class="nav-btn">&#x1F3E0; 首頁</a>
+        <button class="nav-btn" onclick="toggleFullscreen()">&#x1F5A5;&#xFE0F; 全螢幕</button>
+        <a href="https://www.facebook.com/?locale=zh_TW" target="_blank" class="nav-btn">&#x1F4D8; FB</a>
+        <a href="https://www.youtube.com/@Liang-yt02" target="_blank" class="nav-btn">&#x1F3A5; YT</a>
+    </div>
+</nav>
+
+<!-- ── 投影片區域 ── -->
+<div class="slides-wrapper">
+
+    <!-- ===== Slide 1：封面 ===== -->
+    <div class="slide slide-cover active" id="slide-1">
+        <div class="cover-icon">&#x1F52C;</div>
+        <h1 class="cover-title">第二階段：知識蒸餾與簡報大綱</h1>
+        <p class="cover-subtitle">0:30&ndash;1:00 ｜ 去蕪存菁 + 架構組織 + 邏輯校正</p>
+        <div class="cover-tags">
+            <span class="cover-tag">&#x2696;&#xFE0F; 蒸餾</span>
+            <span class="cover-tag">&#x1F4AC; 第5-8輪提問</span>
+            <span class="cover-tag">&#x1F4D0; 簡報架構</span>
+        </div>
+        <div class="slide-footer">&copy; 2026 阿亮老師</div>
+    </div>
+
+    <!-- ===== Slide 2：「蒸餾」是什麼？ ===== -->
+    <div class="slide" id="slide-2">
+        <span class="page-badge">2 / 8</span>
+        <h1>&#x1F52C; 「蒸餾」是什麼？</h1>
+
+        <div class="metaphor-box">
+            <p>如果第一階段是「<strong>收集原材料</strong>」，第二階段就是「<strong>提煉精華</strong>」</p>
+        </div>
+
+        <p style="margin-bottom:14px;">14 頁內容 &#x2192; 13 頁投影片，必須做取捨！</p>
+
+        <h3>蒸餾三步驟</h3>
+        <div class="steps-flow">
+            <div class="step-card">
+                <div class="step-icon">&#x1F525;</div>
+                <div class="step-num">Step 1</div>
+                <div class="step-title">加熱（分析）</div>
+                <div class="step-desc">攤開所有素材，仔細分析每一項內容</div>
+            </div>
+            <div class="step-card">
+                <div class="step-icon">&#x2601;&#xFE0F;</div>
+                <div class="step-num">Step 2</div>
+                <div class="step-title">蒸發（提取）</div>
+                <div class="step-desc">核心概念上升，次要資訊留在底部</div>
+            </div>
+            <div class="step-card">
+                <div class="step-icon">&#x1F4A7;</div>
+                <div class="step-num">Step 3</div>
+                <div class="step-title">冷凝（組織）</div>
+                <div class="step-desc">收集精華，重組為簡報架構</div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <span class="info-icon">&#x1F4A1;</span>
+            <p>蒸餾不是刪減，而是<strong>提純</strong> &mdash; 保留最有價值的精華</p>
+        </div>
+        <div class="slide-footer">&copy; 2026 阿亮老師</div>
+    </div>
+
+    <!-- ===== Slide 3：簡報設計基本原則 ===== -->
+    <div class="slide" id="slide-3">
+        <span class="page-badge">3 / 8</span>
+        <h1>&#x1F4D0; 簡報設計基本原則</h1>
+
+        <div class="principle-grid">
+            <div class="principle-card">
+                <span class="p-icon">&#x23F1;&#xFE0F;</span>
+                <div class="p-text">
+                    <strong>15 分鐘 &#x2248; 13-15 頁</strong>
+                    投影片總頁數控制
+                </div>
+            </div>
+            <div class="principle-card">
+                <span class="p-icon">&#x1F4C4;</span>
+                <div class="p-text">
+                    <strong>每頁停留 1&ndash;1.5 分鐘</strong>
+                    讓聽眾充分吸收
+                </div>
+            </div>
+            <div class="principle-card">
+                <span class="p-icon">&#x1F4CC;</span>
+                <div class="p-text">
+                    <strong>每頁重點 3&ndash;5 個 bullet</strong>
+                    避免資訊過載
+                </div>
+            </div>
+            <div class="principle-card">
+                <span class="p-icon">&#x270F;&#xFE0F;</span>
+                <div class="p-text">
+                    <strong>每個 bullet &#x2264; 25 字</strong>
+                    精簡扼要最有效
+                </div>
+            </div>
+            <div class="principle-card">
+                <span class="p-icon">&#x1F310;</span>
+                <div class="p-text">
+                    <strong>專有名詞中英對照</strong>
+                    展現學術嚴謹度
+                </div>
+            </div>
+            <div class="principle-card">
+                <span class="p-icon">&#x2728;</span>
+                <div class="p-text">
+                    <strong>風格：極簡、學術、清晰</strong>
+                    Less is More
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">&copy; 2026 阿亮老師</div>
+    </div>
+
+    <!-- ===== Slide 4：第三輪 去蕪存菁 ===== -->
+    <div class="slide" id="slide-4">
+        <span class="page-badge">4 / 8</span>
+        <h1>&#x1F3AF; 第三輪：去蕪存菁</h1>
+        <h2>第三輪提問：去蕪存菁 &mdash;「哪些是最核心的論點？」</h2>
+
+        <h3>提示詞 5</h3>
+        <div class="prompt-block">
+            <span class="prompt-label">PROMPT</span>
+<span class="string">從六個面向各提煉 3-5 個核心論點：</span>
+<span class="keyword">1.</span> 定義與核心機制
+<span class="keyword">2.</span> 理論基礎：認知負荷理論
+<span class="keyword">3.</span> 設計原則：圖文整合、步驟編號
+<span class="keyword">4.</span> 學習成效：程序性技能
+<span class="keyword">5.</span> 風險與限制：盲目模仿
+<span class="keyword">6.</span> 教學應用建議
+<span class="comment">// 每個論點一句話，不超過 25 字</span>
+        </div>
+
+        <div class="why-box">
+            <p><strong>&#x1F914; 為什麼分六個面向？</strong> &#x2192; 對應簡報核心頁面，確保每頁都有堅實的內容支撐</p>
+        </div>
+        <div class="info-box">
+            <span class="info-icon">&#x1F4A1;</span>
+            <p>限制「每個論點不超過 25 字」是為了讓產出直接可用於簡報的 bullet point，省去後續刪字精簡的步驟。</p>
+        </div>
+        <div class="slide-footer">&copy; 2026 阿亮老師</div>
+    </div>
+
+    <!-- ===== Slide 5：概念關聯分析 ===== -->
+    <div class="slide" id="slide-5">
+        <span class="page-badge">5 / 8</span>
+        <h1>&#x1F517; 概念關聯分析</h1>
+
+        <h3>提示詞 6</h3>
+        <div class="prompt-block">
+            <span class="prompt-label">PROMPT</span>
+<span class="string">分析概念之間的關係：</span>
+<span class="keyword">1.</span> 工作範例 vs 觀察學習？
+<span class="keyword">2.</span> 任務分解 vs 專家盲點？
+<span class="keyword">3.</span> 自我解釋如何彌補不足？
+<span class="keyword">4.</span> 逐步淡出如何平衡引導與獨立？
+<span class="comment">// 每點不超過 50 字</span>
+        </div>
+        <div class="info-box">
+            <span class="info-icon">&#x1F4A1;</span>
+            <p>這道提示詞刻意用「vs」與「如何」等比較性問法，目的是迫使 AI 產出「概念之間的邏輯關係」，而不只是各概念的定義重述。</p>
+        </div>
+
+        <div class="why-box">
+            <p><strong>&#x1F914; 為什麼要問關聯？</strong> &#x2192; 展示你的<strong>融會貫通</strong>能力，這是教授最在意的學術素養</p>
+        </div>
+
+        <div class="info-box">
+            <span class="info-icon">&#x1F393;</span>
+            <p>概念關聯分析是從「知道」到「理解」的關鍵跳躍</p>
+        </div>
+        <div class="slide-footer">&copy; 2026 阿亮老師</div>
+    </div>
+
+    <!-- ===== Slide 6：第四輪 架構組織 ===== -->
+    <div class="slide" id="slide-6">
+        <span class="page-badge">6 / 8</span>
+        <h1>&#x1F3D7;&#xFE0F; 第四輪：架構組織</h1>
+        <h2>第四輪提問：架構組織 &mdash;「簡報骨架長什麼樣？」</h2>
+
+        <h3>提示詞 7 &mdash; 核心結構</h3>
+        <div class="outline-flow">
+            <span class="outline-item">1. 封面</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">2. 大綱</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">3. 研究背景</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">4. 理論基礎</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">5. 核心概念</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">6. 設計原則</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">7. 教學策略</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">8. 研究證據</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">9. 風險與因應</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">10. 教學應用</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">11. 評析反思</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">12. 結論</span><span class="outline-arrow">&#x2192;</span>
+            <span class="outline-item">13. 參考文獻</span>
+        </div>
+
+        <div class="info-box">
+            <span class="info-icon">&#x1F4A1;</span>
+            <p><strong>提示詞越具體，AI 產出越精準</strong> &mdash; 明確指定頁數、結構、格式，AI 才能給出最佳結果</p>
+        </div>
+        <div class="slide-footer">&copy; 2026 阿亮老師</div>
+    </div>
+
+    <!-- ===== Slide 7：第五輪 邏輯校正 ===== -->
+    <div class="slide" id="slide-7">
+        <span class="page-badge">7 / 8</span>
+        <h1>&#x1F50D; 第五輪：邏輯校正</h1>
+        <h2>第五輪提問：邏輯校正 &mdash;「大綱有沒有漏洞？」</h2>
+
+        <h3>提示詞 8 &mdash; 檢查清單</h3>
+        <div class="check-grid">
+            <div class="check-item">
+                <span class="check-num">1</span>
+                <span>頁面邏輯是否連貫（有無跳躍或重複）</span>
+            </div>
+            <div class="check-item">
+                <span class="check-num">2</span>
+                <span>每頁 bullet 3&ndash;5 個</span>
+            </div>
+            <div class="check-item">
+                <span class="check-num">3</span>
+                <span>每個 bullet 不超過 25 字</span>
+            </div>
+            <div class="check-item">
+                <span class="check-num">4</span>
+                <span>核心概念有無遺漏（任務分解、專家盲點、逐步淡出）</span>
+            </div>
+            <div class="check-item">
+                <span class="check-num">5</span>
+                <span>時間分配合理（15 分鐘 &#x2248; 13 頁）</span>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <span class="info-icon">&#x26A0;&#xFE0F;</span>
+            <p>這一輪是品質控管 &mdash; 確保大綱邏輯通順、內容完整、時間合理</p>
+        </div>
+        <div class="slide-footer">&copy; 2026 阿亮老師</div>
+    </div>
+
+    <!-- ===== Slide 8：小結 ===== -->
+    <div class="slide" id="slide-8">
+        <span class="page-badge">8 / 8</span>
+        <h1>&#x1F4CB; 小結：我們現在有什麼？</h1>
+
+        <ul class="checklist">
+            <li>
+                <span class="check-icon">&#x2705;</span>
+                <span><strong>精煉素材</strong>：六大面向核心論點</span>
+            </li>
+            <li>
+                <span class="check-icon">&#x2705;</span>
+                <span><strong>概念關聯</strong>：理解各概念間的邏輯連結</span>
+            </li>
+            <li>
+                <span class="check-icon">&#x2705;</span>
+                <span><strong>完整大綱</strong>：13 頁，每頁有標題、bullets、時間</span>
+            </li>
+            <li>
+                <span class="check-icon">&#x2705;</span>
+                <span><strong>校正後大綱</strong>：邏輯連貫、沒有遺漏</span>
+            </li>
+        </ul>
+
+        <div class="ending-metaphor">
+            <div class="em-icon">&#x1F3D7;&#xFE0F;</div>
+            <p>藍圖畫好了，接下來要「砌牆」</p>
+            <p class="em-sub">第三階段：將大綱轉化為正式投影片內容</p>
+        </div>
+        <div class="slide-footer">&copy; 2026 阿亮老師</div>
+    </div>
+
+    <!-- Navigation Slide -->
+    <div class="slide" id="slide-9">
+        <div style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; max-width: 960px; width: 100%; background: rgba(255,255,255,0.98); border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.35); padding: 48px 52px; animation: slideIn 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);">
+            <div style="font-size: 64px; margin-bottom: 24px;">&#x2705;</div>
+            <h1 style="color: #1e3c72; font-size: 32px; border: none; padding-bottom: 0; margin-bottom: 16px;">本單元完成！</h1>
+            <p style="font-size: 18px; color: #666; margin-bottom: 40px;">準備好進入下一個階段了嗎？</p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                <a href="index.html" style="display: inline-block; padding: 16px 36px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 30px; text-decoration: none; font-size: 17px; font-weight: 600; transition: all 0.3s; box-shadow: 0 6px 20px rgba(102,126,234,0.3);">&#x1F3E0; 回到統整頁</a>
+                <a href="Part4_內容生成.html" style="display: inline-block; padding: 16px 36px; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 30px; text-decoration: none; font-size: 17px; font-weight: 600; transition: all 0.3s; box-shadow: 0 6px 20px rgba(30,60,114,0.3);">第三階段：內容生成與講稿撰寫 &#x2192;</a>
+            </div>
+        </div>
+        <div class="slide-footer">&copy; 2026 阿亮老師</div>
+    </div>
+
+</div><!-- .slides-wrapper -->
+
+<!-- ── 左右箭頭 ── -->
+<button class="arrow-btn arrow-prev disabled" id="btnPrev" onclick="changeSlide(-1)">&#x276E;</button>
+<button class="arrow-btn arrow-next" id="btnNext" onclick="changeSlide(1)">&#x276F;</button>
+
+<!-- ── 圓點指示器 ── -->
+<div class="dots-bar" id="dotsBar"></div>
+
+<script>
+(function () {
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let current = 0;
+
+    // 建立圓點
+    const dotsBar = document.getElementById('dotsBar');
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', '前往第 ' + (i + 1) + ' 張投影片');
+        dot.addEventListener('click', () => goTo(i));
+        dotsBar.appendChild(dot);
+    });
+
+    function goTo(index) {
+        if (index < 0 || index >= totalSlides) return;
+        slides[current].classList.remove('active');
+        current = index;
+        slides[current].classList.add('active');
+        updateUI();
+    }
+
+    function changeSlide(dir) {
+        goTo(current + dir);
+    }
+
+    function updateUI() {
+        // 箭頭
+        document.getElementById('btnPrev').classList.toggle('disabled', current === 0);
+        document.getElementById('btnNext').classList.toggle('disabled', current === totalSlides - 1);
+        // 圓點
+        const dots = dotsBar.querySelectorAll('.dot');
+        dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    // 鍵盤導覽
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+            e.preventDefault();
+            changeSlide(1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            changeSlide(-1);
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            goTo(0);
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            goTo(totalSlides - 1);
+        }
+    });
+
+    // 觸控滑動
+    let touchStartX = 0;
+    let touchStartY = 0;
+    document.addEventListener('touchstart', function (e) {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', function (e) {
+        const dx = e.changedTouches[0].screenX - touchStartX;
+        const dy = e.changedTouches[0].screenY - touchStartY;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+            if (dx < 0) changeSlide(1);
+            else changeSlide(-1);
+        }
+    }, { passive: true });
+
+    // 全螢幕
+    window.toggleFullscreen = function () {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+            document.exitFullscreen().catch(() => {});
+        }
+    };
+
+    // 暴露 changeSlide 到全域
+    window.changeSlide = changeSlide;
+})();
+</script>
+
+</body>
+</html>

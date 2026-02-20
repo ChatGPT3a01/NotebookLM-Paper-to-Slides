@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 2 — 第一階段：上傳 PDF 與知識萃取</title>
+    <style>
+        /* ===== Reset & Base ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Microsoft JhengHei', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+        }
+
+        /* ===== Top Navigation Bar ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: rgba(10, 25, 60, 0.92);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+        }
+
+        .navbar-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .navbar-buttons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .navbar-buttons a,
+        .navbar-buttons button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .navbar-buttons a:hover,
+        .navbar-buttons button:hover {
+            background: rgba(255,255,255,0.22);
+            transform: scale(1.08);
+        }
+
+        /* ===== Slide Container ===== */
+        .slides-wrapper {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 80px 60px;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 960px;
+            max-height: calc(100vh - 140px);
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25), 0 4px 16px rgba(0,0,0,0.12);
+            padding: 48px 56px;
+            overflow-y: auto;
+            animation: fadeSlide 0.45s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scrollbar */
+        .slide::-webkit-scrollbar {
+            width: 6px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background: rgba(30,60,114,0.25);
+            border-radius: 3px;
+        }
+
+        /* ===== Typography ===== */
+        h1 {
+            color: #1e3c72;
+            font-size: 2em;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.35;
+        }
+
+        h2 {
+            color: #2a5298;
+            font-size: 1.45em;
+            font-weight: 700;
+            margin-bottom: 14px;
+            margin-top: 8px;
+            line-height: 1.4;
+        }
+
+        h3 {
+            color: #1e3c72;
+            font-size: 1.15em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            margin-top: 18px;
+        }
+
+        p, li {
+            font-size: 1.05em;
+            line-height: 1.75;
+            color: #444;
+        }
+
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 12px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* ===== Cover Slide ===== */
+        .slide-cover {
+            display: none;
+            text-align: center;
+            padding: 60px 56px;
+        }
+        .slide-cover.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-cover h1 {
+            font-size: 2.4em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-cover .subtitle {
+            font-size: 1.25em;
+            color: #5a6a8a;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #e8eef8, #dce5f4);
+            color: #2a5298;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.92em;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== Code Blocks ===== */
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 12px 0 18px;
+            font-family: 'Consolas', 'Source Code Pro', 'Courier New', monospace;
+            font-size: 0.93em;
+            line-height: 1.7;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            position: relative;
+        }
+
+        .code-label {
+            display: inline-block;
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 8px;
+            font-size: 0.88em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== Info Box ===== */
+        .info-box {
+            background: linear-gradient(135deg, #eef3fc, #e4ecf9);
+            border-left: 5px solid #2a5298;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+            font-size: 1em;
+            line-height: 1.7;
+            color: #2c3e6b;
+        }
+
+        .info-box strong {
+            color: #1e3c72;
+        }
+
+        /* ===== Steps List ===== */
+        .steps-list {
+            list-style: none;
+            margin-left: 0;
+            counter-reset: step-counter;
+        }
+
+        .steps-list li {
+            counter-increment: step-counter;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 14px;
+            padding: 12px 16px;
+            background: #f7f9fc;
+            border-radius: 12px;
+            transition: background 0.2s;
+        }
+
+        .steps-list li:hover {
+            background: #eef3fc;
+        }
+
+        .steps-list li::before {
+            content: counter(step-counter);
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95em;
+        }
+
+        /* ===== Checklist ===== */
+        .checklist {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .checklist li {
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            background: #f0f6f0;
+            border-radius: 10px;
+            border-left: 4px solid #34a853;
+            font-size: 1.02em;
+        }
+
+        .checklist li.arrow-item {
+            background: linear-gradient(135deg, #eef3fc, #e4ecf9);
+            border-left: 4px solid #2a5298;
+            font-weight: 700;
+            color: #1e3c72;
+        }
+
+        /* ===== Design Logic List ===== */
+        .design-list {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .design-list li {
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            background: #f7f9fc;
+            border-radius: 12px;
+            border-left: 4px solid #2a5298;
+            line-height: 1.7;
+        }
+
+        .design-list li strong {
+            color: #1e3c72;
+        }
+
+        /* ===== Arrow Navigation ===== */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 500;
+            transition: background 0.2s, transform 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-arrow.left  { left: 16px; }
+        .nav-arrow.right { right: 16px; }
+
+        /* ===== Dot Indicators ===== */
+        .dot-indicators {
+            position: fixed;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 500;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: background 0.25s, transform 0.2s;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .dot.active {
+            background: #fff;
+            transform: scale(1.25);
+            border-color: #fff;
+        }
+
+        .dot:hover {
+            background: rgba(255,255,255,0.6);
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            position: fixed;
+            bottom: 40px;
+            right: 28px;
+            color: rgba(255,255,255,0.45);
+            font-size: 0.82em;
+            z-index: 100;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== Slide Counter ===== */
+        .slide-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 28px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9em;
+            font-weight: 600;
+            z-index: 100;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .slides-wrapper {
+                padding: 16px 16px 56px;
+            }
+            .slide {
+                padding: 32px 24px;
+                border-radius: 18px;
+            }
+            .slide-cover {
+                padding: 40px 24px;
+            }
+            .slide-cover h1 {
+                font-size: 1.7em;
+            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.2em; }
+            .navbar-title { font-size: 14px; }
+            .nav-arrow { width: 42px; height: 42px; font-size: 18px; }
+            .nav-arrow.left { left: 6px; }
+            .nav-arrow.right { right: 6px; }
+            .code-block { font-size: 0.82em; padding: 14px 16px; }
+        }
+
+        /* ===== Fullscreen ===== */
+        :fullscreen .navbar {
+            background: rgba(10, 25, 60, 0.96);
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== Navigation Bar ===== -->
+<nav class="navbar">
+    <div class="navbar-title">Part 2 — 第一階段：上傳 PDF 與知識萃取</div>
+    <div class="navbar-buttons">
+        <a href="index.html" title="回首頁">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </a>
+        <button onclick="toggleFullscreen()" title="全螢幕">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </button>
+        <a href="https://www.facebook.com/?locale=zh_TW" target="_blank" title="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@Liang-yt02" target="_blank" title="YouTube">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+    </div>
+</nav>
+
+<!-- ===== Slides ===== -->
+<div class="slides-wrapper">
+
+    <!-- Slide 1: Cover -->
+    <div class="slide slide-cover active" data-slide="1">
+        <div style="margin-bottom: 24px;">
+            <svg width="72" height="72" viewBox="0 0 80 80" fill="none">
+                <rect width="80" height="80" rx="20" fill="url(#coverGrad)"/>
+                <defs><linearGradient id="coverGrad" x1="0" y1="0" x2="80" y2="80"><stop offset="0%" stop-color="#1e3c72"/><stop offset="100%" stop-color="#2a5298"/></linearGradient></defs>
+                <text x="40" y="50" text-anchor="middle" fill="#fff" font-size="36" font-weight="bold">P2</text>
+            </svg>
+        </div>
+        <h1>第一階段：上傳 PDF 與知識萃取</h1>
+        <p class="subtitle">0:00–0:30 ｜ 廣度掃描 + 深度鑽探</p>
+        <div class="tags">
+            <span class="tag">NotebookLM</span>
+            <span class="tag">第 1–2 輪提問</span>
+            <span class="tag">核心概念</span>
+        </div>
+    </div>
+
+    <!-- Slide 2: 這個階段要做什麼？ -->
+    <div class="slide" data-slide="2">
+        <h1>這個階段要做什麼？</h1>
+        <div class="info-box">
+            <strong>目標：「知道這個章節有什麼」</strong>
+        </div>
+        <ul style="margin-top: 18px;">
+            <li>已用 Gem 逐頁讀過，有了基本認識</li>
+            <li>現在需要<strong>「全局觀」</strong>——從高處俯瞰整個章節</li>
+            <li>就像讀完小說，回頭想：<strong>主線是什麼？關鍵人物？轉折點？</strong></li>
+        </ul>
+        <div class="info-box" style="margin-top: 24px;">
+            我們將透過 <strong>兩輪提問</strong>，分別進行「廣度掃描」與「深度鑽探」，<br>
+            從章節中萃取出做簡報所需的核心原材料。
+        </div>
+    </div>
+
+    <!-- Slide 3: 上傳 PDF 到 NotebookLM -->
+    <div class="slide" data-slide="3">
+        <h1>上傳 PDF 到 NotebookLM</h1>
+        <ol class="steps-list">
+            <li>開啟 <strong>notebooklm.google.com</strong></li>
+            <li>點選「<strong>新增筆記本</strong>」</li>
+            <li>「<strong>上傳來源</strong>」→ 選擇 <strong>學習理論Ch.W.pdf</strong></li>
+            <li>等待處理（約 <strong>1–2 分鐘</strong>）</li>
+            <li>系統自動生成<strong>來源摘要</strong></li>
+        </ol>
+        <div class="info-box" style="margin-top: 20px;">
+            上傳完成後，NotebookLM 會自動分析文件內容並產生摘要，這是我們進行知識萃取的起點。
+        </div>
+    </div>
+
+    <!-- Slide 4: 第一輪：廣度掃描 -->
+    <div class="slide" data-slide="4">
+        <h2>第一輪提問：廣度掃描 —「這個章節在講什麼？」</h2>
+
+        <div class="code-label">提示詞 1 — 章節核心定義與範圍</div>
+        <div class="code-block">請用繁體中文，針對「W is for Worked Examples」這一章：
+1. 什麼是工作範例？請給出核心定義
+2. 核心運作原理是什麼？
+3. 涵蓋哪些主要議題？
+4. 適合用在什麼情境？
+專有名詞標示中英對照</div>
+        <div class="info-box" style="margin-top: 8px;">
+            <strong>&#x1F4A1; 提示詞設計邏輯：</strong>用四個問句分別從「是什麼、怎麼運作、包含什麼、適合什麼場合」切入，確保一次就能建立完整的章節輪廓。要求中英對照則是為了後續簡報的學術規格。
+        </div>
+
+        <div class="code-label" style="margin-top: 8px;">提示詞 2 — 關鍵概念術語提取</div>
+        <div class="code-block">請整理所有重要專有名詞，以表格呈現：
+| 中文名稱 | 英文原文 | 簡要定義 |
+至少列出 10 個核心詞彙</div>
+        <div class="info-box" style="margin-top: 8px;">
+            <strong>&#x1F4A1; 提示詞設計邏輯：</strong>表格格式讓散落在各處的專有名詞集中呈現，日後製作簡報時可以直接引用，不用再回頭翻找。
+        </div>
+
+        <div class="info-box" style="margin-top: 12px;">
+            第一輪的重點在於<strong>快速掌握章節全貌</strong>——定義、機制、結構、適用情境，以及散落在各處的專有名詞。
+        </div>
+    </div>
+
+    <!-- Slide 5: 第二輪：深度鑽探 -->
+    <div class="slide" data-slide="5">
+        <h2>第二輪提問：深度鑽探 —「為什麼工作範例有效？」</h2>
+
+        <div class="code-label">提示詞 3 — 理論基礎追問</div>
+        <div class="code-block">針對認知負荷理論（Cognitive Load Theory）：
+1. 核心主張？（引用 Sweller）
+2. 分散注意力效應？舉書中例子
+3. Figure W.1 和 W.2 配線圖差異？
+4. 為什麼比直接解題有效？
+引用書中原文佐證</div>
+        <div class="info-box" style="margin-top: 8px;">
+            <strong>&#x1F4A1; 提示詞設計邏輯：</strong>特別點名 Figure W.1 / W.2，是因為配線圖案例是書中最經典的實證比較，簡報中放入這個案例能讓聽眾馬上理解「分散注意力效應」的真實影響。
+        </div>
+
+        <div class="code-label" style="margin-top: 8px;">提示詞 4 — 關鍵研究提取</div>
+        <div class="code-block">列出所有研究文獻，表格呈現：
+| 研究者（年份） | 研究主題 | 在本章角色 |
+標示核心文獻 vs 補充文獻</div>
+        <div class="info-box" style="margin-top: 8px;">
+            <strong>&#x1F4A1; 提示詞設計邏輯：</strong>學術簡報必須有文獻支撐。區分「核心」與「補充」文獻，有助於在簡報中優先引用最關鍵的研究。
+        </div>
+
+        <div class="info-box" style="margin-top: 12px;">
+            第二輪聚焦在<strong>理論根基</strong>與<strong>學術證據</strong>——這是論文簡報中最需要嚴謹呈現的部分。
+        </div>
+    </div>
+
+    <!-- Slide 6: 為什麼這樣設計提示詞？ -->
+    <div class="slide" data-slide="6">
+        <h1>為什麼這樣設計提示詞？</h1>
+        <ul class="design-list">
+            <li>
+                <strong>提示詞 1：</strong>四個角度（定義、機制、結構、情境）→ 構成<strong>完整輪廓</strong>
+            </li>
+            <li>
+                <strong>提示詞 2：</strong>散落各處的專有名詞「集合」到<strong>一張表</strong>
+            </li>
+            <li>
+                <strong>提示詞 3：</strong>特別問 Figure W.1 / W.2 → <strong>經典案例</strong>，簡報好用
+            </li>
+            <li>
+                <strong>提示詞 4：</strong>學術簡報需要引用文獻 → 先<strong>整理出來</strong>
+            </li>
+        </ul>
+        <div class="info-box" style="margin-top: 20px;">
+            每一道提示詞都有明確目的：<strong>從不同切面萃取資訊</strong>，最終拼成一張完整的知識地圖。<br>
+            好的提示詞 = 好的問題 = 好的原材料。
+        </div>
+    </div>
+
+    <!-- Slide 7: 小結 -->
+    <div class="slide" data-slide="7">
+        <h1>小結：我們萃取到了什麼？</h1>
+        <ul class="checklist">
+            <li>&#x2705; <strong>章節全貌：</strong>涵蓋定義、機制、設計原則、成效、風險、應用</li>
+            <li>&#x2705; <strong>核心詞彙表：</strong>至少 10 個專有名詞中英對照</li>
+            <li>&#x2705; <strong>理論基礎：</strong>認知負荷理論、分散注意力效應、配線圖案例</li>
+            <li>&#x2705; <strong>文獻清單：</strong>所有被引用的研究</li>
+            <li class="arrow-item">&#x27A1;&#xFE0F; 這些是你的「原材料」，接下來要「蒸餾」成簡報</li>
+        </ul>
+        <div class="info-box" style="margin-top: 24px;">
+            完成知識萃取後，你已經擁有了做簡報的所有素材。<br>
+            下一階段，我們將進入<strong>「結構化整理」</strong>，把原材料組織成簡報的骨架。
+        </div>
+    </div>
+
+    <!-- Navigation Slide -->
+    <div class="slide" data-slide="8">
+        <div style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; max-width: 960px; width: 100%; background: #fff; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.25); padding: 48px 56px; animation: fadeSlide 0.45s ease;">
+            <div style="font-size: 64px; margin-bottom: 24px;">&#x2705;</div>
+            <h2 style="color: #1e3c72; font-size: 32px; border: none; margin-bottom: 16px;">本單元完成！</h2>
+            <p style="font-size: 18px; color: #666; margin-bottom: 40px;">準備好進入下一個階段了嗎？</p>
+            <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+                <a href="index.html" style="display: inline-block; padding: 16px 36px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 30px; text-decoration: none; font-size: 17px; font-weight: 600; transition: all 0.3s; box-shadow: 0 6px 20px rgba(102,126,234,0.3);">&#x1F3E0; 回到統整頁</a>
+                <a href="Part3_知識蒸餾.html" style="display: inline-block; padding: 16px 36px; background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; border-radius: 30px; text-decoration: none; font-size: 17px; font-weight: 600; transition: all 0.3s; box-shadow: 0 6px 20px rgba(30,60,114,0.3);">第二階段：知識蒸餾與簡報大綱 &#x2192;</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== Arrow Navigation ===== -->
+<button class="nav-arrow left" onclick="changeSlide(-1)" title="上一頁">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+</button>
+<button class="nav-arrow right" onclick="changeSlide(1)" title="下一頁">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+</button>
+
+<!-- ===== Dot Indicators ===== -->
+<div class="dot-indicators" id="dotIndicators"></div>
+
+<!-- ===== Slide Counter ===== -->
+<div class="slide-counter" id="slideCounter"></div>
+
+<!-- ===== Footer ===== -->
+<div class="footer">&copy; 2026 阿亮老師</div>
+
+<!-- ===== JavaScript ===== -->
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 1;
+
+    // Build dot indicators
+    const dotContainer = document.getElementById('dotIndicators');
+    for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (i === 1) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(i));
+        dotContainer.appendChild(dot);
+    }
+
+    function updateSlideCounter() {
+        document.getElementById('slideCounter').textContent = currentSlide + ' / ' + totalSlides;
+    }
+
+    function goToSlide(n) {
+        if (n < 1 || n > totalSlides) return;
+        slides.forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+
+        currentSlide = n;
+        slides[currentSlide - 1].classList.add('active');
+        document.querySelectorAll('.dot')[currentSlide - 1].classList.add('active');
+        updateSlideCounter();
+    }
+
+    function changeSlide(direction) {
+        let next = currentSlide + direction;
+        if (next < 1) next = totalSlides;
+        if (next > totalSlides) next = 1;
+        goToSlide(next);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+            e.preventDefault();
+            changeSlide(1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            changeSlide(-1);
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            goToSlide(1);
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            goToSlide(totalSlides);
+        } else if (e.key === 'f' || e.key === 'F') {
+            toggleFullscreen();
+        }
+    });
+
+    // Fullscreen
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+            document.exitFullscreen().catch(() => {});
+        }
+    }
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+            changeSlide(diff > 0 ? 1 : -1);
+        }
+    }, { passive: true });
+
+    // Initialize
+    updateSlideCounter();
+</script>
+
+</body>
+</html>

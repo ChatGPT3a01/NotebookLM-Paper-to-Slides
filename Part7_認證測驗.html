@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>課程認證測驗 — NoteBookLM簡報編輯術</title>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        /* ===== 導覽列 ===== */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 32px;
+            height: 56px;
+            background: rgba(10, 20, 50, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* ===== 主容器 ===== */
+        .main-container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 80px 24px 60px;
+        }
+
+        /* ===== Section 1: 測驗標題區 ===== */
+        .quiz-header {
+            text-align: center;
+            padding: 48px 32px 40px;
+            margin-bottom: 36px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quiz-header h1 {
+            font-size: 1.85rem;
+            color: #fff;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .quiz-header .subtitle {
+            font-size: 1.1rem;
+            color: #93c5fd;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .quiz-header .info {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            background: rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 8px;
+        }
+
+        /* ===== Section 2: 題目區 ===== */
+        .questions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .question-card {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 28px 30px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: rgba(147, 197, 253, 0.3);
+        }
+
+        .question-card.unanswered {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25);
+        }
+
+        .question-card.correct {
+            border-color: #22c55e;
+            background: rgba(34, 197, 94, 0.08);
+        }
+
+        .question-card.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 3px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .question-text {
+            font-size: 1.08rem;
+            color: #f1f5f9;
+            font-weight: 600;
+            margin-bottom: 18px;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .option-label:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(147, 197, 253, 0.3);
+        }
+
+        .option-label input[type="radio"] {
+            display: none;
+        }
+
+        .option-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .option-radio::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #3b82f6;
+            transform: scale(0);
+            transition: transform 0.2s ease;
+        }
+
+        .option-label input[type="radio"]:checked ~ .option-radio {
+            border-color: #3b82f6;
+        }
+
+        .option-label input[type="radio"]:checked ~ .option-radio::after {
+            transform: scale(1);
+        }
+
+        .option-label input[type="radio"]:checked ~ .option-text {
+            color: #93c5fd;
+            font-weight: 600;
+        }
+
+        .option-text {
+            font-size: 0.98rem;
+            color: #cbd5e1;
+            transition: color 0.2s ease;
+        }
+
+        .option-label.correct-answer {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: #22c55e;
+        }
+
+        .option-label.correct-answer .option-text {
+            color: #86efac;
+            font-weight: 600;
+        }
+
+        .option-label.wrong-answer {
+            background: rgba(239, 68, 68, 0.12);
+            border-color: #ef4444;
+        }
+
+        .option-label.wrong-answer .option-text {
+            color: #fca5a5;
+        }
+
+        .question-feedback {
+            margin-top: 12px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .question-feedback.show {
+            display: block;
+        }
+
+        .question-feedback.correct {
+            background: rgba(34, 197, 94, 0.12);
+            color: #86efac;
+        }
+
+        .question-feedback.wrong {
+            background: rgba(239, 68, 68, 0.12);
+            color: #fca5a5;
+        }
+
+        /* ===== 提交按鈕 ===== */
+        .submit-area {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            border: none;
+            padding: 14px 48px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.35);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        /* ===== Section 3: 結果區 ===== */
+        .result-section {
+            display: none;
+            text-align: center;
+            padding: 40px 32px;
+            margin-bottom: 36px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-section.pass {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(22, 163, 74, 0.08));
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .result-section.fail {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(220, 38, 38, 0.08));
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .result-score {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .result-section.pass .result-score {
+            color: #4ade80;
+        }
+
+        .result-section.fail .result-score {
+            color: #f87171;
+        }
+
+        .result-label {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .result-message {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .result-section.pass .result-message {
+            color: #86efac;
+        }
+
+        .result-section.fail .result-message {
+            color: #fca5a5;
+        }
+
+        .result-detail {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-bottom: 28px;
+        }
+
+        .btn-certificate {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-certificate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(245, 158, 11, 0.5);
+        }
+
+        .btn-retry {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-retry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(99, 102, 241, 0.5);
+        }
+
+        /* ===== Section 4: 證書表單 ===== */
+        .cert-form-section {
+            display: none;
+            padding: 36px 32px;
+            margin-bottom: 36px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cert-form-section h2 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .cert-form-section .form-desc {
+            font-size: 0.92rem;
+            color: #94a3b8;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group label .required {
+            color: #f87171;
+            margin-left: 4px;
+        }
+
+        .form-group label .optional {
+            color: #64748b;
+            font-weight: 400;
+            font-size: 0.85rem;
+            margin-left: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            color: #f1f5f9;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: #64748b;
+        }
+
+        .form-group input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .form-actions {
+            text-align: center;
+            margin-top: 28px;
+        }
+
+        .btn-generate {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            border: none;
+            padding: 14px 48px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(245, 158, 11, 0.5);
+        }
+
+        /* ===== Section 5: 證書顯示 ===== */
+        .cert-display-section {
+            display: none;
+            margin-bottom: 48px;
+        }
+
+        .cert-display-section h2 {
+            font-size: 1.3rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .certificate-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        /* ===== 證書本體 ===== */
+        .certificate {
+            width: 800px;
+            min-height: 560px;
+            background: linear-gradient(135deg, #fffef0, #fff8dc, #ffefd5);
+            border-radius: 8px;
+            padding: 12px;
+            position: relative;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .cert-border-outer {
+            border: 3px solid;
+            border-image: linear-gradient(135deg, #ffd700, #b8860b, #ffd700) 1;
+            padding: 8px;
+            height: 100%;
+        }
+
+        .cert-border-inner {
+            border: 1px solid #b8860b;
+            padding: 36px 44px 28px;
+            min-height: 480px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .cert-title {
+            font-size: 1.65rem;
+            font-weight: 900;
+            color: #1a1a2e;
+            text-align: center;
+            margin-bottom: 4px;
+            letter-spacing: 2px;
+        }
+
+        .cert-subtitle {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 28px;
+            font-weight: 600;
+        }
+
+        .cert-divider {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #b8860b, transparent);
+            margin-bottom: 28px;
+        }
+
+        .cert-body {
+            font-size: 1.05rem;
+            color: #333;
+            text-align: center;
+            line-height: 2;
+            margin-bottom: 24px;
+        }
+
+        .cert-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #1a1a2e;
+            margin: 4px 0;
+            border-bottom: 2px solid #b8860b;
+            padding-bottom: 4px;
+            display: inline-block;
+        }
+
+        .cert-org {
+            font-size: 1rem;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .cert-congrats {
+            font-size: 0.95rem;
+            color: #444;
+            margin-top: 4px;
+        }
+
+        .cert-course-badge {
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 20px 0 28px;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(30, 60, 114, 0.3);
+        }
+
+        .cert-seal {
+            position: absolute;
+            right: 44px;
+            bottom: 70px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 3px solid #c41e3a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #c41e3a;
+            font-weight: 700;
+            background: rgba(196, 30, 58, 0.04);
+        }
+
+        .cert-seal .seal-check {
+            font-size: 1.4rem;
+            line-height: 1;
+        }
+
+        .cert-seal .seal-text {
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .cert-seal .seal-text-zh {
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            margin-top: 1px;
+        }
+
+        .cert-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            width: 100%;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(184, 134, 11, 0.3);
+        }
+
+        .cert-footer-item {
+            text-align: center;
+        }
+
+        .cert-footer-label {
+            font-size: 0.7rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .cert-footer-value {
+            font-size: 0.85rem;
+            color: #333;
+            font-weight: 700;
+        }
+
+        /* ===== 下載按鈕 ===== */
+        .download-area {
+            text-align: center;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: 0 4px 20px rgba(34, 197, 94, 0.35);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(34, 197, 94, 0.5);
+        }
+
+        /* ===== 底部導覽 ===== */
+        .bottom-nav {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            padding: 32px 0 16px;
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav a {
+            color: #93c5fd;
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 10px 24px;
+            border-radius: 10px;
+            border: 1px solid rgba(147, 197, 253, 0.25);
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .bottom-nav a:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(147, 197, 253, 0.5);
+        }
+
+        /* ===== 動畫 ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        /* ===== 進度條 ===== */
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            height: 8px;
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            border-radius: 20px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        /* ===== RWD ===== */
+        @media (max-width: 860px) {
+            .certificate {
+                width: 100%;
+                min-height: auto;
+            }
+
+            .cert-border-inner {
+                padding: 24px 20px 20px;
+            }
+
+            .cert-title {
+                font-size: 1.3rem;
+            }
+
+            .cert-name {
+                font-size: 1.4rem;
+            }
+
+            .cert-seal {
+                position: relative;
+                right: auto;
+                bottom: auto;
+                margin: 16px 0;
+            }
+
+            .cert-footer {
+                flex-direction: column;
+                gap: 12px;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .top-nav {
+                padding: 0 12px;
+                height: 50px;
+            }
+
+            .nav-title {
+                font-size: 0.8rem;
+            }
+
+            .nav-links a {
+                font-size: 0.75rem;
+                padding: 5px 8px;
+            }
+
+            .main-container {
+                padding: 66px 12px 40px;
+            }
+
+            .quiz-header {
+                padding: 28px 16px;
+            }
+
+            .quiz-header h1 {
+                font-size: 1.3rem;
+            }
+
+            .question-card {
+                padding: 20px 16px;
+            }
+
+            .option-label {
+                padding: 10px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 導覽列 -->
+    <nav class="top-nav">
+        <div class="nav-title">課程認證測驗 — NoteBookLM簡報編輯術</div>
+        <div class="nav-links">
+            <a href="index.html">🏠 首頁</a>
+            <a href="https://www.facebook.com/?locale=zh_TW" target="_blank" rel="noopener noreferrer">📘 FB</a>
+            <a href="https://www.youtube.com/@Liang-yt02" target="_blank" rel="noopener noreferrer">🎥 YT</a>
+        </div>
+    </nav>
+
+    <!-- 主容器 -->
+    <div class="main-container">
+
+        <!-- Section 1: 測驗標題 -->
+        <div class="quiz-header fade-in-up">
+            <h1>📝 NoteBookLM簡報編輯術 — 課程認證測驗</h1>
+            <div class="subtitle">通過測驗（80 分以上）即可獲得認證證書！</div>
+            <div class="info">本次測驗從題庫中隨機抽取 10 題，每題 10 分，滿分 100 分。</div>
+        </div>
+
+        <!-- 作答進度 -->
+        <div class="progress-text" id="progressText">已作答：0 / 10</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+
+        <!-- Section 2: 題目區 -->
+        <div class="questions-container" id="questionsContainer"></div>
+
+        <!-- 提交按鈕 -->
+        <div class="submit-area" id="submitArea">
+            <button class="btn-submit" id="btnSubmit" onclick="submitQuiz()">📤 提交答案</button>
+        </div>
+
+        <!-- Section 3: 結果區 -->
+        <div class="result-section" id="resultSection">
+            <div class="result-label">您的成績</div>
+            <div class="result-score" id="resultScore">0</div>
+            <div class="result-message" id="resultMessage"></div>
+            <div class="result-detail" id="resultDetail"></div>
+            <div id="resultActions"></div>
+        </div>
+
+        <!-- Section 4: 證書表單 -->
+        <div class="cert-form-section" id="certFormSection">
+            <h2>📜 填寫證書資料</h2>
+            <div class="form-desc">請填寫下列資料以產生個人化認證證書</div>
+            <div class="form-group">
+                <label>姓名<span class="required">*</span></label>
+                <input type="text" id="certName" placeholder="請輸入您的姓名" maxlength="30">
+            </div>
+            <div class="form-group">
+                <label>服務單位<span class="optional">（選填）</span></label>
+                <input type="text" id="certOrg" placeholder="例如：XX 高級中學" maxlength="50">
+            </div>
+            <div class="form-actions">
+                <button class="btn-generate" onclick="generateCertificate()">🎓 產生證書</button>
+            </div>
+        </div>
+
+        <!-- Section 5: 證書顯示 -->
+        <div class="cert-display-section" id="certDisplaySection">
+            <h2>🎉 恭喜您獲得認證證書！</h2>
+            <div class="certificate-wrapper">
+                <div class="certificate" id="certificate">
+                    <div class="cert-border-outer">
+                        <div class="cert-border-inner">
+                            <div class="cert-title">NoteBookLM簡報編輯術 能力認證證書</div>
+                            <div class="cert-subtitle">CERTIFICATE OF ACHIEVEMENT</div>
+                            <div class="cert-divider"></div>
+                            <div class="cert-body">
+                                <div style="font-size: 0.9rem; color: #777; margin-bottom: 8px;">茲證明</div>
+                                <div class="cert-name" id="certDisplayName"></div>
+                                <div class="cert-org" id="certDisplayOrg"></div>
+                                <div class="cert-congrats">恭喜您完成專業課程學習並通過認證測驗</div>
+                            </div>
+                            <div class="cert-course-badge">NoteBookLM簡報編輯術（2 小時）</div>
+                            <div class="cert-seal">
+                                <div class="seal-check">✓</div>
+                                <div class="seal-text">CERTIFIED</div>
+                                <div class="seal-text-zh">認證通過</div>
+                            </div>
+                            <div class="cert-footer">
+                                <div class="cert-footer-item">
+                                    <div class="cert-footer-label">發證日期</div>
+                                    <div class="cert-footer-value" id="certDate"></div>
+                                </div>
+                                <div class="cert-footer-item">
+                                    <div class="cert-footer-label">認證單位</div>
+                                    <div class="cert-footer-value">國教署新興科技計畫聯盟學校</div>
+                                </div>
+                                <div class="cert-footer-item">
+                                    <div class="cert-footer-label">課程講師</div>
+                                    <div class="cert-footer-value">阿亮老師</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="download-area">
+                <button class="btn-download" onclick="downloadCertificate()">💾 下載證書圖片</button>
+            </div>
+        </div>
+
+        <!-- 底部導覽 -->
+        <div class="bottom-nav">
+            <a href="index.html">🏠 回到統整頁</a>
+            <a href="Part6_簡報範例.html">← 回到 Part 6</a>
+        </div>
+
+    </div>
+
+    <script>
+        // ===== 題庫 =====
+        const allQuestions = [
+            {
+                question: "Gemini Gem 是什麼？",
+                options: ["一種程式語言", "Google Gemini 的自訂 AI 助手功能", "一款簡報軟體", "一種資料庫系統"],
+                answer: 1
+            },
+            {
+                question: "在「論文閱讀器」Gem 中，🔴 紅筆標註的是什麼？",
+                options: ["段落大意", "專有名詞與關鍵概念", "作者的觀點", "圖表說明"],
+                answer: 1
+            },
+            {
+                question: "在「論文閱讀器」Gem 中，🔵 藍筆標註的是什麼？",
+                options: ["專有名詞翻譯", "段落含義與重點解讀", "參考文獻", "頁碼標示"],
+                answer: 1
+            },
+            {
+                question: "知識蒸餾八輪提問法的第一輪目的是什麼？",
+                options: ["品質把關", "廣度掃描——了解章節全貌", "生成簡報大綱", "撰寫講稿"],
+                answer: 1
+            },
+            {
+                question: "認知負荷理論（Cognitive Load Theory）是誰提出的？",
+                options: ["Atkinson (2000)", "Nathan (2003)", "Sweller (1994)", "Renkl (1998)"],
+                answer: 2
+            },
+            {
+                question: "什麼是「分散注意力效應」（Split-Attention Effect）？",
+                options: ["學生注意力不集中的現象", "圖文分離導致認知負擔增加", "多工處理降低效率", "記憶力隨時間衰退"],
+                answer: 1
+            },
+            {
+                question: "工作範例（Worked Examples）的核心定義是什麼？",
+                options: ["讓學生自行摸索的教學法", "逐步示範如何完成程序性任務的教學方法", "只用口頭講解的教學法", "反覆練習同一題目的教學法"],
+                answer: 1
+            },
+            {
+                question: "「專家盲點」（Expert Blind Spot）指的是什麼？",
+                options: ["專家視力不好", "專家忘記新手的困難和起點", "專家不願意分享知識", "專家解題速度太快"],
+                answer: 1
+            },
+            {
+                question: "在知識蒸餾八輪提問法中，「去蕪存菁」是第幾輪？",
+                options: ["第一輪", "第三輪", "第五輪", "第八輪"],
+                answer: 1
+            },
+            {
+                question: "一份 15 分鐘的學術簡報，建議幾頁投影片？",
+                options: ["5-8 頁", "13-15 頁", "20-25 頁", "30 頁以上"],
+                answer: 1
+            },
+            {
+                question: "每頁投影片的 bullet point 建議不超過幾個？",
+                options: ["2 個", "3-5 個", "8-10 個", "不限制"],
+                answer: 1
+            },
+            {
+                question: "NotebookLM 最擅長的功能是什麼？",
+                options: ["逐頁陪你閱讀", "整體分析與知識蒸餾", "製作動畫效果", "翻譯外語"],
+                answer: 1
+            },
+            {
+                question: "Chandler & Sweller (1991) 的配線圖實驗證明了什麼？",
+                options: ["學生不喜歡電路圖", "整合式設計（圖文合一）優於分離式設計", "配線圖不適合教學", "所有學生都會配線"],
+                answer: 1
+            },
+            {
+                question: "「逐步淡出」（Fading）策略的目的是什麼？",
+                options: ["讓字體越來越小", "漸進移除範例支持，培養獨立解題能力", "降低螢幕亮度", "減少課程時數"],
+                answer: 1
+            },
+            {
+                question: "「自我解釋」（Self-Explanation）是指什麼？",
+                options: ["老師自己解釋給自己聽", "學習者主動問自己『為什麼要這一步？』", "自動生成解釋文件", "用 AI 自動解題"],
+                answer: 1
+            },
+            {
+                question: "在學術報告中，「自己的見解」最適合放在哪一頁？",
+                options: ["封面頁", "參考文獻頁", "評析與反思頁", "報告大綱頁"],
+                answer: 2
+            },
+            {
+                question: "知識蒸餾八輪提問法的最後一輪（第八輪）目的是什麼？",
+                options: ["廣度掃描", "架構組織", "語言打磨", "品質把關"],
+                answer: 3
+            },
+            {
+                question: "工作範例最適合用在什麼情境？",
+                options: ["學生已精通的技能", "初學者學習程序性技能的初期", "學期末總複習", "休閒娛樂時間"],
+                answer: 1
+            },
+            {
+                question: "Gemini Gem「論文閱讀器」與 NotebookLM 的關係是什麼？",
+                options: ["兩者功能完全相同", "Gem 先讀懂原文，NotebookLM 再蒸餾為簡報", "NotebookLM 取代了 Gem", "兩者無法搭配使用"],
+                answer: 1
+            },
+            {
+                question: "每個 bullet point 建議不超過幾個中文字？",
+                options: ["10 個字", "25 個字", "50 個字", "100 個字"],
+                answer: 1
+            }
+        ];
+
+        // ===== 全域狀態 =====
+        let currentQuestions = [];
+        let quizSubmitted = false;
+
+        // ===== 初始化 =====
+        function init() {
+            loadQuiz();
+        }
+
+        // ===== 洗牌演算法 (Fisher-Yates) =====
+        function shuffle(array) {
+            const arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // ===== 載入測驗 =====
+        function loadQuiz() {
+            quizSubmitted = false;
+            currentQuestions = shuffle(allQuestions).slice(0, 10);
+
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            currentQuestions.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'question-card fade-in-up';
+                card.style.animationDelay = `${idx * 0.05}s`;
+                card.id = `qCard${idx}`;
+
+                let optionsHTML = '';
+                q.options.forEach((opt, optIdx) => {
+                    optionsHTML += `
+                        <label class="option-label" id="opt${idx}_${optIdx}">
+                            <input type="radio" name="q${idx}" value="${optIdx}" onchange="updateProgress()">
+                            <span class="option-radio"></span>
+                            <span class="option-text">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="question-number">第 ${idx + 1} 題</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="options-list">${optionsHTML}</div>
+                    <div class="question-feedback" id="feedback${idx}"></div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            // 重設 UI
+            document.getElementById('submitArea').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+            document.getElementById('resultSection').className = 'result-section';
+            document.getElementById('certFormSection').style.display = 'none';
+            document.getElementById('certDisplaySection').style.display = 'none';
+            document.getElementById('progressText').textContent = '已作答：0 / 10';
+            document.getElementById('progressBar').style.width = '0%';
+
+            // 滾動到頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ===== 更新進度 =====
+        function updateProgress() {
+            if (quizSubmitted) return;
+            let answered = 0;
+            for (let i = 0; i < 10; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) answered++;
+            }
+            document.getElementById('progressText').textContent = `已作答：${answered} / 10`;
+            document.getElementById('progressBar').style.width = `${answered * 10}%`;
+        }
+
+        // ===== 提交測驗 =====
+        function submitQuiz() {
+            // 檢查是否全部作答
+            let allAnswered = true;
+            for (let i = 0; i < 10; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const card = document.getElementById(`qCard${i}`);
+                if (!selected) {
+                    allAnswered = false;
+                    card.classList.add('unanswered');
+                    // 3 秒後移除閃爍
+                    setTimeout(() => card.classList.remove('unanswered'), 2500);
+                }
+            }
+
+            if (!allAnswered) {
+                alert('⚠️ 請回答所有題目後再提交！');
+                // 捲動到第一個未作答的題目
+                for (let i = 0; i < 10; i++) {
+                    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                    if (!selected) {
+                        document.getElementById(`qCard${i}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        break;
+                    }
+                }
+                return;
+            }
+
+            quizSubmitted = true;
+
+            // 計算分數
+            let correctCount = 0;
+            for (let i = 0; i < 10; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const userAnswer = parseInt(selected.value);
+                const correctAnswer = currentQuestions[i].answer;
+                const card = document.getElementById(`qCard${i}`);
+                const feedback = document.getElementById(`feedback${i}`);
+
+                // 停用所有選項
+                const radios = document.querySelectorAll(`input[name="q${i}"]`);
+                radios.forEach(r => r.disabled = true);
+
+                if (userAnswer === correctAnswer) {
+                    correctCount++;
+                    card.classList.add('correct');
+                    feedback.textContent = '✅ 答對了！';
+                    feedback.className = 'question-feedback show correct';
+                    document.getElementById(`opt${i}_${correctAnswer}`).classList.add('correct-answer');
+                } else {
+                    card.classList.add('wrong');
+                    feedback.textContent = `❌ 答錯了！正確答案是：${currentQuestions[i].options[correctAnswer]}`;
+                    feedback.className = 'question-feedback show wrong';
+                    document.getElementById(`opt${i}_${userAnswer}`).classList.add('wrong-answer');
+                    document.getElementById(`opt${i}_${correctAnswer}`).classList.add('correct-answer');
+                }
+            }
+
+            const score = correctCount * 10;
+            const passed = score >= 80;
+
+            // 隱藏提交按鈕
+            document.getElementById('submitArea').style.display = 'none';
+
+            // 顯示結果
+            const resultSection = document.getElementById('resultSection');
+            resultSection.style.display = 'block';
+            resultSection.className = `result-section fade-in-up ${passed ? 'pass' : 'fail'}`;
+            document.getElementById('resultScore').textContent = score;
+            document.getElementById('resultDetail').textContent = `答對 ${correctCount} 題 / 共 10 題`;
+
+            const actionsDiv = document.getElementById('resultActions');
+
+            if (passed) {
+                document.getElementById('resultMessage').textContent = '🎉 恭喜通過測驗！';
+                actionsDiv.innerHTML = `<button class="btn-certificate" onclick="showCertForm()">🎓 取得證書</button>`;
+            } else {
+                document.getElementById('resultMessage').textContent = '😥 很可惜，未達通過標準';
+                actionsDiv.innerHTML = `
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 16px;">需要 80 分以上才能通過，請再接再厲！</p>
+                    <button class="btn-retry" onclick="loadQuiz()">🔄 重新作答</button>
+                `;
+            }
+
+            // 捲動到結果區
+            setTimeout(() => {
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        }
+
+        // ===== 顯示證書表單 =====
+        function showCertForm() {
+            const formSection = document.getElementById('certFormSection');
+            formSection.style.display = 'block';
+            formSection.classList.add('fade-in-up');
+            formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            document.getElementById('certName').focus();
+        }
+
+        // ===== 產生證書 =====
+        function generateCertificate() {
+            const name = document.getElementById('certName').value.trim();
+            const org = document.getElementById('certOrg').value.trim();
+
+            if (!name) {
+                alert('⚠️ 請輸入您的姓名！');
+                document.getElementById('certName').focus();
+                return;
+            }
+
+            // 填入證書內容
+            document.getElementById('certDisplayName').textContent = name;
+            document.getElementById('certDisplayOrg').textContent = org ? `（${org}）` : '';
+
+            // 日期
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('certDate').textContent = `${yyyy} 年 ${mm} 月 ${dd} 日`;
+
+            // 顯示證書
+            const displaySection = document.getElementById('certDisplaySection');
+            displaySection.style.display = 'block';
+            displaySection.classList.add('fade-in-up');
+
+            // 隱藏表單
+            document.getElementById('certFormSection').style.display = 'none';
+
+            setTimeout(() => {
+                displaySection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+
+        // ===== 下載證書 =====
+        function downloadCertificate() {
+            const cert = document.getElementById('certificate');
+            const btn = document.querySelector('.btn-download');
+            btn.textContent = '⏳ 產生圖片中...';
+            btn.disabled = true;
+
+            html2canvas(cert, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: null,
+                logging: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'NoteBookLM簡報編輯術_認證證書.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                btn.textContent = '💾 下載證書圖片';
+                btn.disabled = false;
+            }).catch(err => {
+                console.error('證書下載失敗:', err);
+                alert('下載失敗，請稍後再試或使用螢幕截圖。');
+                btn.textContent = '💾 下載證書圖片';
+                btn.disabled = false;
+            });
+        }
+
+        // ===== 頁面載入 =====
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+</html>
