@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 1-2 — Gem 工具模板介紹</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft JhengHei', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* === Navigation Bar === */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: rgba(10, 25, 60, 0.92);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+        }
+
+        .navbar-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-buttons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .navbar-buttons a,
+        .navbar-buttons button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .navbar-buttons a:hover,
+        .navbar-buttons button:hover {
+            background: rgba(255,255,255,0.22);
+        }
+
+        /* === Slide Container === */
+        .slides-wrapper {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 80px 60px;
+            overflow: hidden;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 960px;
+            max-height: calc(100vh - 140px);
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            padding: 48px 56px;
+            overflow-y: auto;
+            animation: fadeSlide 0.45s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide::-webkit-scrollbar {
+            width: 6px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background: rgba(30,60,114,0.25);
+            border-radius: 3px;
+        }
+
+        /* === Typography === */
+        h1 {
+            color: #1e3c72;
+            font-size: 2em;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.35;
+        }
+
+        h2 {
+            color: #2a5298;
+            font-size: 1.45em;
+            font-weight: 700;
+            margin-bottom: 14px;
+            margin-top: 24px;
+            line-height: 1.4;
+        }
+
+        h3 {
+            color: #1e3c72;
+            font-size: 1.15em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            margin-top: 18px;
+        }
+
+        p, li {
+            font-size: 1.05em;
+            line-height: 1.75;
+            color: #444;
+            margin-bottom: 12px;
+        }
+
+        ul, ol {
+            margin-left: 24px;
+            margin-bottom: 12px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* === Cover Slide === */
+        .slide-cover {
+            display: none;
+            text-align: center;
+            padding: 60px 56px;
+        }
+        .slide-cover.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-cover h1 {
+            font-size: 2.4em;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-cover .subtitle {
+            font-size: 1.25em;
+            color: #5a6a8a;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #e8eef8, #dce5f4);
+            color: #2a5298;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.92em;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        /* === Code Block === */
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 12px 0 18px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.93em;
+            line-height: 1.7;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .code-label {
+            display: inline-block;
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 8px;
+            font-size: 0.88em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        /* === Info Box === */
+        .info-box {
+            background: linear-gradient(135deg, #eef3fc, #e4ecf9);
+            border-left: 5px solid #2a5298;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+            font-size: 1em;
+            line-height: 1.7;
+            color: #2c3e6b;
+        }
+
+        .info-box strong {
+            color: #1e3c72;
+        }
+
+        /* === Highlight Box === */
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 16px 0;
+            color: #856404;
+        }
+
+        .highlight-box strong {
+            color: #d39e00;
+        }
+
+        /* === Tool Card === */
+        .tool-card {
+            background: linear-gradient(135deg, #f8f9fb, #f0f3f9);
+            border-left: 5px solid #1e3c72;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+
+        .tool-card h3 {
+            color: #1e3c72;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tool-card p {
+            margin-bottom: 12px;
+        }
+
+        /* === Arrow Navigation === */
+        .nav-arrow {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 500;
+            transition: background 0.2s, transform 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-arrow.left { left: 16px; }
+        .nav-arrow.right { right: 16px; }
+
+        /* === Dot Indicators === */
+        .dot-indicators {
+            position: fixed;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 500;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: background 0.25s, transform 0.2s;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .dot.active {
+            background: #fff;
+            transform: scale(1.25);
+            border-color: #fff;
+        }
+
+        .dot:hover {
+            background: rgba(255,255,255,0.6);
+        }
+
+        /* === Footer === */
+        .footer {
+            position: fixed;
+            bottom: 40px;
+            right: 28px;
+            color: rgba(255,255,255,0.45);
+            font-size: 0.82em;
+            z-index: 100;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 28px;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9em;
+            font-weight: 600;
+            z-index: 100;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 768px) {
+            .slides-wrapper {
+                padding: 16px 16px 56px;
+            }
+            .slide {
+                padding: 32px 24px;
+            }
+            h1 { font-size: 1.5em; }
+            h2 { font-size: 1.2em; }
+            .nav-arrow { width: 42px; height: 42px; font-size: 18px; }
+            .nav-arrow.left { left: 6px; }
+            .nav-arrow.right { right: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="navbar-title">Part 1-2 — Gem 工具模板介紹</div>
+    <div class="navbar-buttons">
+        <a href="index.html" title="回首頁">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </a>
+        <button onclick="toggleFullscreen()" title="全螢幕">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+        </button>
+    </div>
+</nav>
+
+<!-- Slides -->
+<div class="slides-wrapper">
+
+    <!-- Slide 1: 封面 -->
+    <div class="slide slide-cover active" data-slide="1">
+        <svg width="72" height="72" viewBox="0 0 80 80" fill="none" style="margin-bottom: 24px;">
+            <rect width="80" height="80" rx="20" fill="url(#gemGrad)"/>
+            <defs><linearGradient id="gemGrad" x1="0" y1="0" x2="80" y2="80"><stop offset="0%" stop-color="#1e3c72"/><stop offset="100%" stop-color="#2a5298"/></linearGradient></defs>
+            <text x="40" y="50" text-anchor="middle" fill="#fff" font-size="36" font-weight="bold">✨</text>
+        </svg>
+        <h1>Gem 工具模板介紹</h1>
+        <p class="subtitle">製作「論文閱讀器」自訂 AI 助手的兩個高級模板</p>
+        <div class="tags">
+            <span class="tag">Google Gemini</span>
+            <span class="tag">論文深讀</span>
+            <span class="tag">圖像標註</span>
+            <span class="tag">學術筆記</span>
+        </div>
+    </div>
+
+    <!-- Slide 2: 概述 -->
+    <div class="slide" data-slide="2">
+        <h1>Gem 工具的兩個高級模板</h1>
+        <div class="info-box">
+            <strong>核心概念：</strong>透過自訂 Gem（Google Gemini 的自訂 AI 助手），我們可以快速建立專門用於論文深讀的「聰慧助手」。本頁介紹兩個高級模板，可根據你的閱讀需求進行選擇。
+        </div>
+
+        <h2>🎯 為什麼需要這兩個模板？</h2>
+        <ul>
+            <li><strong>模板 1 — 論文對照式逐段深讀器：</strong>適合需要在「對比原文」的同時進行深度理解的場景，特別適合比較複雜或術語密集的章節</li>
+            <li><strong>模板 2 — 論文閱讀圖像筆記生成器：</strong>適合已經有 PDF 或圖檔，需要逐頁製作視覺化標註筆記的場景，產出結構化的 A3 雙頁筆記</li>
+            <li><strong>選擇方法：</strong>如果你有高質量的 JPG 檔案並希望得到視覺化筆記 → 選模板 2；如果你更在意逐段對比原文脈絡 → 選模板 1</li>
+        </ul>
+    </div>
+
+    <!-- Slide 3: 模板 1 介紹 -->
+    <div class="slide" data-slide="3">
+        <h1>✨ 模板 1：論文對照式逐段深讀器</h1>
+        <h2>Paper Interleave Reader</h2>
+
+        <div class="tool-card">
+            <h3>📖 工具描述</h3>
+            <p>上傳論文原文檔案、圖檔、或者文字，讓讀者在<strong>不脫離原文脈絡</strong>的情況下，得到逐段深讀法，獲得深度的理解與轉譯。</p>
+        </div>
+
+        <h2>🎯 核心特色</h2>
+        <ul>
+            <li><strong>對照式閱讀：</strong>左側是原文，右側是 AI 的深度筆記，邊讀邊註</li>
+            <li><strong>A3 雙頁版面：</strong>專業的雙頁筆記本樣式，視覺清晰</li>
+            <li><strong>紅筆術語標註：</strong>自動識別並圈出 5-8 個關鍵術語，附深入解釋</li>
+            <li><strong>藍筆邏輯解讀：</strong>逐段分析原文邏輯脈絡，標示段落間的關聯</li>
+            <li><strong>拒絕精簡：</strong>筆記內容極度詳細，確保深度理解</li>
+        </ul>
+
+        <div class="highlight-box">
+            <strong>⚡ 使用場景：</strong>適合讀理論性很強的論文、或需要逐句咀嚼的經典文獻。這個模板讓你邊讀邊思考，不會遺漏任何邏輯細節。
+        </div>
+    </div>
+
+    <!-- Slide 4: 模板 1 使用流程 -->
+    <div class="slide" data-slide="4">
+        <h1>模板 1 使用流程</h1>
+
+        <h2>📋 分三個步驟</h2>
+        <ol>
+            <li><strong>待命規則：</strong>上傳檔案後，Gem 只會確認「已準備好」，不會自動開始分析</li>
+            <li><strong>指定頁碼：</strong>你告訴 Gem「請給我第 1 頁」時，它才開始生成 A3 雙頁筆記</li>
+            <li><strong>產出物：</strong>一張 A3 雙頁圖表 + 詳細的繁體中文筆記文字</li>
+        </ol>
+
+        <h2>📊 A3 雙頁版面結構</h2>
+        <ul>
+            <li><strong>左側：</strong>你上傳的原始 A4 頁面</li>
+            <li><strong>右側上方：</strong>🔴 紅筆術語（5-8 個關鍵詞彙的深入解釋）</li>
+            <li><strong>右側中間：</strong>🔵 藍筆邏輯（逐段邏輯脈絡分析）</li>
+            <li><strong>右側下方：</strong>💡 筆記摘要 + 🔗 與前後頁關聯</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>視覺連線：</strong>紅色和藍色的箭頭清晰地指向左側原文對應的位置，讓筆記與原文完全同步。
+        </div>
+    </div>
+
+    <!-- Slide 5: 模板 1 提示詞 -->
+    <div class="slide" data-slide="5">
+        <h1>模板 1 完整提示詞</h1>
+        <p><strong>直接複製下面的提示詞到 Google Gemini Gem 建立面板中：</strong></p>
+
+        <div class="code-label">🔴 系統提示詞（複製貼上）</div>
+        <div class="code-block">Role: 深度學術論文地毯式解析導師
+
+🎯 核心任務
+你是一位極度細膩、拒絕精簡的學術導師，叫做「亮的~論文閱讀器 Paper Reader」。你的核心任務是將用戶分批上傳的英文（或其他語言）學術論文或專業書籍章節的 A4 JPG 檔案，轉換為一個專業的 A3 幅面雙頁學術閱讀與標註筆記。
+
+🛑 待命規則 (嚴格執行)
+在接收到用戶上傳的單頁或多頁檔案後，必須給予確認訊息。你的回覆只能是：「收到！亮老師，第 1 到第 X 頁已準備就緒。請告訴我您想從哪一頁開始生成深度筆記（例如：『請給我第 1 頁』）？」若老師僅上傳檔案，不准自動開始分析。
+
+🛠️ 執行流程 (收到頁碼指令後啟動)
+
+第一步：產出「A3 學術閱讀雙頁版面」 (AI 繪圖)
+必須生成一個全新的 A3 幅面雙頁圖表。畫布設計：A3 雙頁幅面 (例如: 總幅面 2400x1600 像素)，米黃色背景 (#FFF9E3)，呈現專業雙頁筆記本的樣子。
+
+版面佈局 (嚴格遵守)：
+- 左側頁面 (A4 原文)：將上傳的原始 A4 頁面完整、清晰地放置在左側。
+- 右側頁面 (AI 筆記)：此區域用於 AI 生成的深度繁體中文筆記，分為三個主要區域。
+
+視覺規範與標註 (最重要)：
+【🔴 紅筆術語】標註：
+- AI 在接收到上傳的原始頁面時，必須自動識別 5-8 個關鍵術語，並在左側原文中用紅圈標註出來。
+- 在右側筆記區的「🔴紅筆術語」欄位中，詳細列出這些術語及其深入解釋。
+- 使用一根清晰的紅色箭頭，從右側筆記欄位中的每個術語解釋，連線到左側原文對應的紅圈標註位置。
+
+【🔵 藍筆邏輯】標註：
+- 在右側筆記區的「🔵藍筆邏輯」欄位中，逐段解析原文的邏輯脈絡。
+- 使用一根清晰的藍色箭頭，從右側筆記欄位中的每個段落解析，連線到左側原文對應段落的開始位置。
+- 版面顏色對應：筆記標題顏色必須與紅/藍箭頭對應。
+
+第二步：產出「整合型極深度的繁體中文筆記文字」 (整合到右側筆記中)
+圖片顯示後，必須確保圖片右側筆記內容豐富度對標 ChatGPT 的細膩度：
+
+📖 第 X 頁：整合型地毯式深度解析筆記
+
+【🔴 紅筆標註 — 專有名詞與關鍵術語】 (整合到右側筆記區)
+豐富度要求：每頁必須抓出 5-8 個關鍵術語、核心動詞或概念。
+格式：中文名稱 (English Term)：給予 3-5 句的深入定義。具體說明該詞在「本頁脈絡」中扮演什麼關鍵角色、如何與前後文掛鉤。嚴禁精簡，文字量必須充足，呈現深度學術解析感。
+
+【🔵 藍筆標註 — 段落邏輯深度解讀】 (整合到右側筆記區)
+嚴格要求：必須逐段解析（P1, P2, P3...），禁止合併段落。
+內容：解析每一段的核心論點、作者採用的修辭手法（如類比、對比）、以及該段如何一步步引導至後續的結論。
+
+【💡 筆記摘要】 (整合到右側筆記區)
+提供 5 個以上深度列點，總結本頁對學習者的具體啟發與理論精華。
+
+【🔗 與前後頁的關聯】 (整合到右側筆記區)
+詳細推論這頁如何承接上文，並為下一頁埋下了什麼邏輯伏筆。
+
+⚠️ 品質防線
+- 拒絕精簡：如果回覆過於簡短或漏掉中文解釋，視同任務失敗。文字量必須充足且專業。
+- 語系規範：全文使用繁體中文 (台灣口語)。專有名詞保留英文並加括號。
+- 視覺對應：必須確保右側筆記與左側原文之間的紅藍箭頭連線準確、清晰，且連線到對應的紅圈標註或段落開始位置。
+- 互動提示：結束後請說：「✅ 第 X 頁 A3 雙頁地毯式解析已完成。亮老師，這次的深度滿意嗎？請說『第 X+1 頁』繼續。」</div>
+    </div>
+
+    <!-- Slide 6: 模板 2 介紹 -->
+    <div class="slide" data-slide="6">
+        <h1>✨ 模板 2：論文閱讀圖像筆記生成器</h1>
+        <h2>Academic Paper Visual Annotator</h2>
+
+        <div class="tool-card">
+            <h3>📸 工具描述</h3>
+            <p>分批上傳 JPG 檔案後幫助逐頁閱讀英文（或其他語言）的學術論文或專業書籍章節，製作詳細標註筆記，能詳細理解吸收原文內容。</p>
+        </div>
+
+        <h2>🎯 核心特色</h2>
+        <ul>
+            <li><strong>視覺化標註：</strong>直接在圖像上圈出和標註關鍵詞彙</li>
+            <li><strong>A3 雙頁筆記：</strong>左側原圖 + 右側深度筆記，專業版面</li>
+            <li><strong>紅圈術語 + 紅箭頭：</strong>自動識別 5-8 個術語，清晰連線到原文</li>
+            <li><strong>藍箭頭邏輯線：</strong>每段落的邏輯解析都有箭頭指引</li>
+            <li><strong>極度詳細的文字筆記：</strong>與模板 1 相同的深度要求</li>
+        </ul>
+
+        <div class="highlight-box">
+            <strong>⚡ 使用場景：</strong>特別適合已經有高質量 PDF 或圖檔的情況。這個模板的優勢是你能看到視覺化的標註，每個圈圈和箭頭都幫助你快速定位原文位置。
+        </div>
+    </div>
+
+    <!-- Slide 7: 模板 2 使用流程 -->
+    <div class="slide" data-slide="7">
+        <h1>模板 2 使用流程</h1>
+
+        <h2>📋 準備工作</h2>
+        <ol>
+            <li><strong>轉檔：</strong>將 PDF 轉換為 JPG（推薦使用 iLovePDF 或類似工具）</li>
+            <li><strong>分批上傳：</strong>將 JPG 檔案分批上傳給 Gem（建議一次 3-5 頁）</li>
+            <li><strong>等候確認：</strong>Gem 會確認「已準備好」，但不會自動分析</li>
+        </ol>
+
+        <h2>🎨 分析流程</h2>
+        <ol>
+            <li><strong>指定頁碼：</strong>你告訴 Gem「請給我第 1 頁」</li>
+            <li><strong>AI 繪圖：</strong>Gem 生成 A3 雙頁版面，左側是你上傳的 JPG，右側是視覺化標註區</li>
+            <li><strong>自動標註：</strong>在 JPG 上圈出 5-8 個關鍵術語，用紅圓圈標記</li>
+            <li><strong>箭頭連線：</strong>紅箭頭指向術語解釋，藍箭頭指向段落邏輯分析</li>
+            <li><strong>產出筆記：</strong>同時輸出詳細的繁體中文筆記文字</li>
+        </ol>
+
+        <div class="info-box">
+            <strong>核心優勢：</strong>視覺化的圈圈和箭頭讓你瞬間定位原文，比純文字筆記效率高 3 倍以上。
+        </div>
+    </div>
+
+    <!-- Slide 8: 模板 2 提示詞 -->
+    <div class="slide" data-slide="8">
+        <h1>模板 2 完整提示詞</h1>
+        <p><strong>直接複製下面的提示詞到 Google Gemini Gem 建立面板中：</strong></p>
+
+        <div class="code-label">🔴 系統提示詞（複製貼上）</div>
+        <div class="code-block">Role: 深度學術論文地毯式解析導師
+
+🎯 核心任務
+你是一位極度細膩、拒絕精簡的學術導師，叫做「亮的~論文閱讀器 Paper Reader」。你的核心任務是將用戶分批上傳的英文（或其他語言）學術論文或專業書籍章節的 A4 JPG 檔案，轉換為一個專業的 A3 幅面雙頁學術閱讀與標註筆記。
+
+【完整提示詞與模板 1 相同】
+
+👉 主要差異：在模板 2 中，Gem 會特別在圖像上添加視覺化標註：
+- 紅圈標記在原圖中直接圈出術語位置
+- 紅色箭頭從右側筆記連線到左側圖像上的紅圈
+- 藍色箭頭從右側筆記連線到左側圖像上的段落開始位置
+- 全部標註清晰可見，便於快速定位</div>
+
+        <div class="info-box">
+            <strong>💡 提示：</strong>模板 2 的提示詞與模板 1 基本相同，核心區別在於模板 2 要求 Gem 在圖像上進行「視覺化標註」（圈圈和箭頭），而模板 1 則是基於文字的對照式閱讀。
+        </div>
+    </div>
+
+    <!-- Slide 9: 兩個模板的比較 -->
+    <div class="slide" data-slide="9">
+        <h1>模板對比：何時選擇哪一個？</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <tr style="background: #f0f3f9; border-bottom: 2px solid #2a5298;">
+                <th style="text-align: left; padding: 12px; border: 1px solid #ddd;"><strong>維度</strong></th>
+                <th style="text-align: left; padding: 12px; border: 1px solid #ddd;"><strong>模板 1（逐段深讀器）</strong></th>
+                <th style="text-align: left; padding: 12px; border: 1px solid #ddd;"><strong>模板 2（圖像筆記生成器）</strong></th>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>輸入格式</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">文字、檔案、圖檔都可以</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">必須是 JPG 檔案</td>
+            </tr>
+            <tr style="background: #f9f9f9;">
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>版面特色</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">A3 雙頁，文字對照</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">A3 雙頁，視覺化標註</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>視覺標註</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">箭頭指向文字位置</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">紅圈 + 箭頭在圖像上</td>
+            </tr>
+            <tr style="background: #f9f9f9;">
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>適用場景</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">理論密集、需要逐句思考</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">已有高質量 PDF、需要視覺定位</td>
+            </tr>
+            <tr>
+                <td style="padding: 12px; border: 1px solid #ddd;"><strong>筆記豐富度</strong></td>
+                <td style="padding: 12px; border: 1px solid #ddd;">極度詳細，拒絕精簡</td>
+                <td style="padding: 12px; border: 1px solid #ddd;">極度詳細，拒絕精簡</td>
+            </tr>
+        </table>
+
+        <h2>🎯 選擇建議</h2>
+        <ul>
+            <li>✅ <strong>選模板 1：</strong>你的重點是「理解論文邏輯」，希望邊讀邊思考</li>
+            <li>✅ <strong>選模板 2：</strong>你的重點是「快速定位原文」，希望視覺化輔助</li>
+            <li>✅ <strong>都試試看：</strong>同一篇論文用兩個模板試試，感受差異</li>
+        </ul>
+    </div>
+
+    <!-- Slide 10: 實作技巧 -->
+    <div class="slide" data-slide="10">
+        <h1>🛠️ 實作技巧與常見問題</h1>
+
+        <h2>Q1：上傳檔案時，Gem 自動開始分析了？</h2>
+        <p><strong>A：</strong>這表示你的提示詞沒有設定「待命規則」。請確認提示詞中有「若老師僅上傳檔案，不准自動開始分析」這一行，這樣 Gem 才會等你指定頁碼。</p>
+
+        <h2>Q2：生成的筆記太短或太簡潔？</h2>
+        <p><strong>A：</strong>這是最常見的問題。提示詞中有「拒絕精簡」的規則，但 Gem 有時還是會簡化。補救方法：告訴 Gem「內容太精簡，請展開每一項，至少加倍字數」。</p>
+
+        <h2>Q3：箭頭連線不準確或不清晰？</h2>
+        <p><strong>A：</strong>這通常是 Gem 的視覺化生成品質問題。如果出現，可以試試：(1) 重新上傳更清晰的 JPG；(2) 明確告訴 Gem「箭頭必須清晰可見，顏色要分明」。</p>
+
+        <h2>Q4：可以同時上傳多頁嗎？</h2>
+        <p><strong>A：</strong>可以，但建議一次上傳 3-5 頁。太多頁一起上傳可能造成 Gem 產出品質下降。</p>
+
+        <h2>Q5：中文和英文混用會有問題嗎？</h2>
+        <p><strong>A：</strong>沒問題。提示詞明確寫著「支援英文或其他語言」，Gem 會自動用繁體中文為你翻譯和解釋。</p>
+    </div>
+
+    <!-- Slide 11: 總結 -->
+    <div class="slide" data-slide="11">
+        <h1>✅ 快速總結</h1>
+        <div class="info-box">
+            <strong>🎯 核心重點：</strong>
+            <br>• 模板 1 = 文字對照式深讀，適合理論密集的論文
+            <br>• 模板 2 = 視覺化圖像標註，適合需要清晰定位的場景
+            <br>• 兩個模板都拒絕精簡，筆記內容極度詳細
+            <br>• 都支援繁體中文，所有英文術語自動標註
+        </div>
+
+        <h2>🚀 下一步行動</h2>
+        <ol>
+            <li>選擇符合你需求的模板（模板 1 或模板 2）</li>
+            <li>複製對應的完整提示詞</li>
+            <li>到 Google Gemini 建立新的 Gem（https://gemini.google.com/create）</li>
+            <li>在「系統提示詞」欄位貼上複製的提示詞</li>
+            <li>取名為「亮的~論文閱讀器」或任何你喜歡的名字</li>
+            <li>開始上傳你的論文檔案，享受深度閱讀體驗！</li>
+        </ol>
+
+        <div class="highlight-box">
+            <strong>💡 祕訣：</strong>剛開始時，建議先用一篇你已經很熟悉的論文試試這兩個模板，體驗效果。然後再用在新的陌生論文上。
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 20px; background: linear-gradient(135deg, #e8eef8, #dce5f4); border-radius: 12px;">
+            <p style="color: #1e3c72; font-size: 1.1em; font-weight: 700;">
+                祝你閱讀愉快！🚀<br>
+                有任何問題，歡迎返回重新查看這些模板。
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<!-- Navigation Arrows -->
+<button class="nav-arrow left" onclick="changeSlide(-1)">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+</button>
+<button class="nav-arrow right" onclick="changeSlide(1)">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+</button>
+
+<!-- Dot Indicators -->
+<div class="dot-indicators" id="dotIndicators"></div>
+
+<!-- Slide Counter -->
+<div class="slide-counter" id="slideCounter"></div>
+
+<!-- Footer -->
+<div class="footer">&copy; 2026 阿亮老師</div>
+
+<!-- JavaScript -->
+<script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 1;
+
+    // Build dot indicators
+    const dotContainer = document.getElementById('dotIndicators');
+    for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (i === 1) dot.classList.add('active');
+        dot.addEventListener('click', () => goToSlide(i));
+        dotContainer.appendChild(dot);
+    }
+
+    function updateSlideCounter() {
+        document.getElementById('slideCounter').textContent = currentSlide + ' / ' + totalSlides;
+    }
+
+    function goToSlide(n) {
+        if (n < 1 || n > totalSlides) return;
+        slides.forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+
+        currentSlide = n;
+        slides[currentSlide - 1].classList.add('active');
+        document.querySelectorAll('.dot')[currentSlide - 1].classList.add('active');
+        updateSlideCounter();
+    }
+
+    function changeSlide(direction) {
+        let next = currentSlide + direction;
+        if (next < 1) next = totalSlides;
+        if (next > totalSlides) next = 1;
+        goToSlide(next);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
+            e.preventDefault();
+            changeSlide(1);
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            changeSlide(-1);
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            goToSlide(1);
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            goToSlide(totalSlides);
+        } else if (e.key === 'f' || e.key === 'F') {
+            toggleFullscreen();
+        }
+    });
+
+    // Fullscreen
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+            document.exitFullscreen().catch(() => {});
+        }
+    }
+
+    // Initialize
+    updateSlideCounter();
+</script>
+
+</body>
+</html>

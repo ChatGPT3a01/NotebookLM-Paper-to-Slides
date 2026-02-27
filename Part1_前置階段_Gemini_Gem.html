@@ -568,28 +568,23 @@
             </div>
         </div>
 
-        <!-- Slide 6: 準備 Chapter W 獨立 PDF -->
+        <!-- Slide 6: 準備 Chapter W 獨立 PDF + 轉 JPG -->
         <div class="slide" data-slide="5">
             <div class="card">
-                <h2>準備 Chapter W 獨立 PDF &mdash; 抽取目標章節</h2>
-                <p>在開始使用 Gem 之前，需要先將目標章節從整本教科書中抽取出來，製作成獨立的 PDF 檔案。Chapter W（Worked Examples 工作範例）位於教科書的<strong>第 366&ndash;379 頁，共 14 頁</strong>。</p>
-                <h3 style="margin-top:16px;">方法一：瀏覽器內建列印功能（推薦）</h3>
+                <h2>準備素材 &mdash; 抽取 PDF 並轉為逐頁 JPG</h2>
+                <p>在開始使用 Gem 之前，需要完成兩個準備步驟：(1) 將目標章節從整本教科書中抽取出來；(2) 將 PDF 轉換為逐頁 JPG 圖片。Chapter W（Worked Examples 工作範例）位於教科書的<strong>第 366&ndash;379 頁，共 14 頁</strong>。</p>
+                <h3 style="margin-top:16px;">步驟一：抽取 Chapter W 獨立 PDF</h3>
                 <ul>
-                    <li><strong>步驟</strong>：用 Chrome 或 Edge 開啟原始 PDF &#x2192; 按下鍵盤 <code style="background:#eef;padding:2px 8px;border-radius:4px;">Ctrl + P</code>（Mac 為 Cmd + P）&#x2192; 目的地選擇「另存為 PDF」&#x2192; 在頁碼範圍欄位輸入 <strong>366-379</strong> &#x2192; 點擊「儲存」</li>
-                    <li><strong>優點</strong>：不需安裝任何軟體，所有電腦都能操作。瀏覽器直接處理，速度快且不會壓縮畫質</li>
+                    <li><strong>瀏覽器列印法</strong>：用 Chrome 或 Edge 開啟原始 PDF &#x2192; 按 <code style="background:#eef;padding:2px 8px;border-radius:4px;">Ctrl + P</code> &#x2192; 目的地選「另存為 PDF」&#x2192; 頁碼範圍輸入 <strong>366-379</strong> &#x2192; 儲存為 <strong style="color:#1e3c72;">學習理論Ch.W.pdf</strong></li>
                 </ul>
-                <h3 style="margin-top:16px;">方法二：iLovePDF 線上工具</h3>
+                <h3 style="margin-top:16px;">步驟二：將 PDF 轉為逐頁 JPG 圖片</h3>
                 <ul>
-                    <li><strong>步驟</strong>：前往 iLovePDF.com &#x2192; 選擇「分割 PDF」功能 &#x2192; 上傳原始 PDF &#x2192; 選擇「依頁碼範圍分割」&#x2192; 輸入 366-379 &#x2192; 下載分割後的檔案</li>
-                    <li><strong>優點</strong>：介面直覺好操作，適合不熟悉瀏覽器列印功能的使用者。免費版即可使用，不需要註冊帳號</li>
-                </ul>
-                <h3 style="margin-top:16px;">檔案命名建議</h3>
-                <ul>
-                    <li>建議命名為：<strong style="color:#1e3c72;">學習理論Ch.W.pdf</strong>，清楚標示章節名稱，方便日後管理和辨識</li>
-                    <li>避免使用中文全形符號或特殊字元命名，以免上傳時發生編碼問題</li>
+                    <li><strong>為什麼需要這一步？</strong>：Gemini Gem <strong>無法直接對 PDF 進行逐頁閱讀</strong> &mdash; 即使你上傳了 PDF 並說「請給我第 1 頁」，Gem 也無法準確定位到特定頁面。必須將每一頁轉為獨立的 JPG 圖片，Gem 才能透過圖片辨識準確閱讀每一頁</li>
+                    <li><strong>操作方法</strong>：前往 <strong>iLovePDF.com</strong> &#x2192; 選擇「PDF 轉 JPG」功能 &#x2192; 上傳 <strong>學習理論Ch.W.pdf</strong> &#x2192; 選擇「每頁轉一張圖」&#x2192; 點擊「轉換為 JPG」&#x2192; 下載並解壓縮，得到 <strong>14 張 JPG</strong></li>
+                    <li><strong>iLovePDF 網址</strong>：<a href="https://www.ilovepdf.com/zh-tw/pdf_to_jpg" target="_blank" style="color:#2a5298;font-weight:600;">https://www.ilovepdf.com/zh-tw/pdf_to_jpg</a>（免費、免註冊、繁體中文介面）</li>
                 </ul>
                 <div class="info-box">
-                    &#x1F4C1; <strong>為什麼要抽出獨立 PDF？</strong>原因有二：(1) Gemini 對話的檔案上傳有大小限制，整本教科書可能超過上限；(2) 讓 AI 專注在目標的 14 頁章節，不被其他章節的內容干擾，回答品質會顯著提升。後續上傳到 NotebookLM 時，也是使用這份獨立的 PDF。
+                    &#x26A0;&#xFE0F; <strong>重要提醒</strong>：Gem 每次對話最多只能上傳 <strong>10 張圖片</strong>，14 頁的章節需要<strong>分兩批上傳</strong>（第 1&ndash;10 頁為第一批，第 11&ndash;14 頁為第二批）。兩批都上傳完畢後，才能開始逐頁閱讀。後續上傳到 NotebookLM 時，仍使用原始的 PDF 檔案即可。
                 </div>
             </div>
         </div>
@@ -597,10 +592,17 @@
         <!-- Slide 7: 實際使用示範 -->
         <div class="slide" data-slide="6">
             <div class="card">
-                <h2>實際使用示範 &mdash; 逐頁閱讀 Chapter W</h2>
-                <p>Gem 建好、PDF 準備好之後，就可以開始逐頁閱讀了。操作流程非常簡單：開啟你的 Gem &#x2192; 上傳 PDF 附件 &#x2192; 輸入指令「請給我第 1 頁」。</p>
+                <h2>實際使用示範 &mdash; 分批上傳 JPG 並逐頁閱讀</h2>
+                <p>Gem 建好、14 張 JPG 準備好之後，就可以開始了。操作流程分三步：<strong>上傳第一批圖片（第 1&ndash;10 頁）</strong> &#x2192; <strong>上傳第二批圖片（第 11&ndash;14 頁）</strong> &#x2192; <strong>開始逐頁閱讀</strong>。</p>
+                <h3>上傳流程（分兩批）</h3>
+                <ol>
+                    <li><strong>開啟 Gem</strong>：回到 Gemini，開啟「論文閱讀器 Paper Reader」Gem</li>
+                    <li><strong>上傳第一批</strong>：點選附件圖示，選取第 1&ndash;10 頁的 JPG（共 10 張），送出。Gem 一次最多接受 10 張圖片</li>
+                    <li><strong>上傳第二批</strong>：在同一對話中，再次上傳第 11&ndash;14 頁的 JPG（共 4 張），送出。兩批都上傳完畢後才能開始</li>
+                </ol>
+                <h3 style="margin-top:16px;">開始逐頁閱讀</h3>
                 <div class="chat-example">
-                    <div class="chat-user">&#x1F4CE; 上傳「學習理論Ch.W.pdf」&#x2192; 輸入「請給我第 1 頁」</div>
+                    <div class="chat-user">（兩批 JPG 已上傳完畢）&#x2192; 輸入「請給我第 1 頁」</div>
                     <div class="chat-ai">
                         <div class="line"><strong>&#x1F4D6; 第 1 頁</strong></div>
                         <div class="line" style="margin-top:4px;">原文段落：本頁介紹 Worked Examples 的定義與教學意義...</div>
@@ -615,14 +617,14 @@
                 </div>
                 <h3 style="margin-top:16px;">使用技巧與注意事項</h3>
                 <ul>
+                    <li><strong>為什麼要轉 JPG？</strong>：Gem 無法直接對 PDF 進行逐頁定位，必須將每頁轉為獨立圖片，Gem 才能透過圖片辨識精準閱讀每一頁的內容</li>
                     <li><strong>逐頁推進</strong>：每次只讀一頁，讀完後輸入「第 2 頁」「第 3 頁」依序推進。不要跳頁，因為 Gem 會追蹤前後頁的關聯</li>
                     <li><strong>可隨時追問</strong>：如果某個專有名詞看不懂，可以直接追問「請更詳細解釋 Cognitive Load Theory」，Gem 會給你更深入的說明</li>
                     <li><strong>全程約 30-40 分鐘</strong>：14 頁論文依序讀完，大約需要 30 到 40 分鐘。每一頁都會產出完整的紅藍筆標註與摘要筆記</li>
                     <li><strong>筆記可匯出</strong>：讀完全部 14 頁後，你可以請 Gem「請幫我整理全部 14 頁的摘要筆記」，它會產出一份完整的閱讀筆記，可以複製貼上保存</li>
-                    <li><strong>品質檢查</strong>：如果覺得某一頁的標註不夠詳細，可以說「請重新分析第 X 頁，特別注意專有名詞」，Gem 會重新產出更詳細的版本</li>
                 </ul>
                 <div class="info-box">
-                    &#x23F1; <strong>時間預估</strong>：14 頁約 <strong>30&ndash;40 分鐘</strong>可全部讀完。讀完後你會擁有一份完整的逐頁筆記，每一頁都有專有名詞翻譯、段落解讀和重點摘要。這份筆記就是你接下來使用 NotebookLM 進行知識蒸餾的重要基礎。
+                    &#x23F1; <strong>時間預估</strong>：轉 JPG 約 <strong>2 分鐘</strong>（iLovePDF 線上完成），上傳兩批約 <strong>3 分鐘</strong>，逐頁閱讀 14 頁約 <strong>30&ndash;40 分鐘</strong>。完成後你會擁有一份完整的逐頁筆記，這就是接下來使用 NotebookLM 進行知識蒸餾的重要基礎。
                 </div>
             </div>
         </div>
